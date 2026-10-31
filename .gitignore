@@ -1,0 +1,30 @@
+# Environment variables and API keys
+.env
+.env.*
+!.env.example
+
+# Personal data
+memory.json
+chat_history.json
+
+# Uploaded files
+uploads/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+
+# Flask instance data
+instance/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/

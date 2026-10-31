@@ -1,0 +1,3164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070d18">
+<title>KIRA AI</title>
+
+<style>
+/* ==========================================
+   KIRA AI — JARVIS INTERFACE
+========================================== */
+
+:root {
+ --bg:#070d18;
+ --panel:#0c1728;
+ --surface:#12243a;
+ --surface2:#172d45;
+ --text:#eaf6ff;
+ --muted:#8da7bd;
+ --border:#25435e;
+ --accent:#42d8ff;
+ --accent2:#ff9d42;
+ --user:#15547a;
+ --success:#29e6a1;
+ --danger:#ff647c;
+ --shadow:#0009;
+ --glow:#42d8ff35;
+}
+
+body.neon {
+ --bg:#080b18;
+ --panel:#11152a;
+ --surface:#1a2140;
+ --surface2:#252c50;
+ --text:#f0f1ff;
+ --muted:#9ba5ca;
+ --border:#373d72;
+ --accent:#8c85ff;
+ --accent2:#43d9ff;
+ --user:#4247a0;
+ --success:#48e7b0;
+ --glow:#8c85ff40;
+}
+
+body.midnight {
+ --bg:#041522;
+ --panel:#092237;
+ --surface:#10314a;
+ --surface2:#16405d;
+ --text:#e7f8ff;
+ --muted:#91b8ce;
+ --border:#24536c;
+ --accent:#38d5f4;
+ --accent2:#4b94ff;
+ --user:#12618b;
+ --success:#25d7a0;
+ --glow:#38d5f440;
+}
+
+body.purple {
+ --bg:#100b1d;
+ --panel:#1b1230;
+ --surface:#291b43;
+ --surface2:#382452;
+ --text:#f5edff;
+ --muted:#b7a4d0;
+ --border:#493267;
+ --accent:#c18aff;
+ --accent2:#ff8acb;
+ --user:#633b91;
+ --success:#56e6b0;
+ --glow:#c18aff40;
+}
+
+body.light {
+ --bg:#eef3fa;
+ --panel:#ffffff;
+ --surface:#f1f5fb;
+ --surface2:#e5edf7;
+ --text:#1a2a40;
+ --muted:#71839b;
+ --border:#d3dfed;
+ --accent:#1879c9;
+ --accent2:#8b58e9;
+ --user:#2866a3;
+ --success:#119b71;
+ --danger:#d94d66;
+ --shadow:#536e8b22;
+ --glow:#1879c925;
+}
+
+* {
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+}
+
+body {
+ min-height:100vh;
+ font-family:Inter,"Segoe UI",Arial,sans-serif;
+ background:
+  radial-gradient(ellipse at 10% 0%,var(--glow),transparent 35%),
+  radial-gradient(ellipse at 100% 100%,#4b66ff10,transparent 40%),
+  var(--bg);
+ color:var(--text);
+ transition:background .3s,color .3s;
+}
+
+button,input,select,textarea {
+ font:inherit;
+}
+
+button {
+ cursor:pointer;
+}
+
+button:disabled {
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+ outline:2px solid var(--accent);
+ outline-offset:3px;
+}
+
+::selection {
+ background:var(--accent);
+ color:#071322;
+}
+
+/* HEADER */
+
+header {
+ height:68px;
+ padding:0 24px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:color-mix(in srgb,var(--panel) 88%,transparent);
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--border);
+}
+
+.logo {
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:21px;
+ font-weight:900;
+ letter-spacing:3px;
+ color:var(--accent);
+ text-shadow:0 0 18px var(--glow);
+}
+
+.logo-mark {
+ width:35px;
+ height:35px;
+ border:1px solid var(--accent);
+ border-radius:11px;
+ display:grid;
+ place-items:center;
+ box-shadow:0 0 17px var(--glow);
+}
+
+.header-actions {
+ display:flex;
+ align-items:center;
+ gap:9px;
+}
+
+.online {
+ color:var(--success);
+ font-size:10px;
+ font-weight:bold;
+ letter-spacing:1px;
+}
+
+.btn {
+ padding:10px 13px;
+ border:1px solid var(--border);
+ border-radius:10px;
+ background:var(--surface);
+ color:var(--text);
+ transition:.2s ease;
+}
+
+.btn:hover {
+ border-color:var(--accent);
+ box-shadow:0 0 15px var(--glow);
+ transform:translateY(-1px);
+}
+
+.primary {
+ background:var(--accent);
+ border-color:var(--accent);
+ color:#061421;
+ font-weight:800;
+}
+
+.danger {
+ color:var(--danger);
+}
+
+.icon-btn {
+ width:39px;
+ height:39px;
+ padding:0;
+ display:grid;
+ place-items:center;
+ font-size:17px;
+}
+
+/* MAIN LAYOUT */
+
+.layout {
+ width:min(1600px,100%);
+ margin:auto;
+ padding:20px;
+ display:grid;
+ grid-template-columns:245px minmax(0,1fr);
+ gap:18px;
+}
+
+.sidebar {
+ position:sticky;
+ top:87px;
+ height:calc(100vh - 108px);
+ min-height:450px;
+ display:flex;
+ flex-direction:column;
+ padding:14px;
+ border:1px solid var(--border);
+ border-radius:18px;
+ background:var(--panel);
+ box-shadow:0 15px 40px var(--shadow);
+}
+
+.side-label {
+ margin:13px 9px 8px;
+ color:var(--muted);
+ font-size:9px;
+ letter-spacing:2px;
+ font-weight:800;
+}
+
+.side-btn {
+ width:100%;
+ padding:12px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ text-align:left;
+ border:1px solid transparent;
+ border-radius:11px;
+ background:transparent;
+ color:var(--text);
+ font-size:12px;
+ transition:.2s;
+}
+
+.side-btn:hover,
+.side-btn.active {
+ background:var(--surface);
+ border-color:var(--border);
+ color:var(--accent);
+}
+
+.side-icon {
+ width:22px;
+ text-align:center;
+ font-size:17px;
+}
+
+.sidebar-bottom {
+ margin-top:auto;
+ border-top:1px solid var(--border);
+ padding:14px 8px 4px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.8;
+}
+
+.private-status {
+ display:flex;
+ align-items:center;
+ gap:7px;
+ color:var(--success);
+ font-weight:bold;
+}
+
+/* MAIN */
+
+main {
+ min-width:0;
+}
+
+.hero {
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:12px 10px 20px;
+}
+
+.hero small {
+ color:var(--accent);
+ letter-spacing:3px;
+ font-size:10px;
+ font-weight:800;
+}
+
+.hero h1 {
+ font-size:clamp(29px,4vw,45px);
+ letter-spacing:2px;
+ margin:7px 0;
+}
+
+.hero h1 span {
+ color:var(--accent);
+}
+
+.hero p {
+ color:var(--muted);
+ font-size:12px;
+}
+
+.system-chip {
+ padding:9px 12px;
+ border:1px solid var(--border);
+ background:var(--panel);
+ border-radius:30px;
+ color:var(--success);
+ font-size:9px;
+ letter-spacing:1px;
+ white-space:nowrap;
+}
+
+/* ARC REACTOR */
+
+.reactor-area {
+ display:flex;
+ justify-content:center;
+ padding:5px 0 22px;
+}
+
+.reactor {
+ position:relative;
+ width:95px;
+ height:95px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ background:
+  radial-gradient(circle,#e9ffff 0%,var(--accent) 8%,#18749c 24%,#102c46 43%,transparent 65%);
+ box-shadow:
+  0 0 16px var(--accent),
+  0 0 40px var(--glow),
+  inset 0 0 18px #ffffff35;
+ animation:reactorPulse 3s ease-in-out infinite;
+}
+
+.reactor:before,
+.reactor:after {
+ content:"";
+ position:absolute;
+ border:1px solid var(--accent);
+ border-radius:50%;
+}
+
+.reactor:before {
+ inset:-9px;
+ border-left-color:transparent;
+ border-right-color:transparent;
+ animation:spin 8s linear infinite;
+}
+
+.reactor:after {
+ inset:-17px;
+ border-top-color:transparent;
+ border-bottom-color:transparent;
+ opacity:.6;
+ animation:spin 12s linear infinite reverse;
+}
+
+.reactor-core {
+ width:28px;
+ height:28px;
+ border:2px solid white;
+ border-radius:50%;
+ box-shadow:0 0 15px white;
+}
+
+@keyframes spin {
+ to {transform:rotate(360deg)}
+}
+
+@keyframes reactorPulse {
+ 50% {
+  transform:scale(1.06);
+  filter:brightness(1.3);
+ }
+}
+
+/* WORKSPACE */
+
+.workspace {
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 290px;
+ gap:15px;
+ align-items:start;
+}
+
+.chat-card,
+.tool-card,
+.memory-card {
+ border:1px solid var(--border);
+ border-radius:17px;
+ background:var(--panel);
+ box-shadow:0 12px 35px var(--shadow);
+ overflow:hidden;
+}
+
+.chat-card {
+ min-width:0;
+}
+
+.chat-heading {
+ padding:15px 17px;
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.chat-heading strong {
+ font-size:11px;
+ letter-spacing:1.4px;
+}
+
+.muted {
+ color:var(--muted);
+ font-size:10px;
+}
+
+#chat {
+ height:470px;
+ min-height:300px;
+ overflow-y:auto;
+ padding:18px;
+ display:flex;
+ flex-direction:column;
+ gap:15px;
+ scroll-behavior:smooth;
+}
+
+#chat::-webkit-scrollbar,
+.dialog::-webkit-scrollbar {
+ width:6px;
+}
+
+#chat::-webkit-scrollbar-thumb,
+.dialog::-webkit-scrollbar-thumb {
+ background:var(--border);
+ border-radius:20px;
+}
+
+.message {
+ max-width:88%;
+ padding:13px 15px;
+ border-radius:15px;
+ font-size:13px;
+ line-height:1.75;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+ animation:messageIn .25s ease;
+}
+
+@keyframes messageIn {
+ from {opacity:0;transform:translateY(8px)}
+ to {opacity:1;transform:translateY(0)}
+}
+
+.message.kira {
+ align-self:flex-start;
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-top-left-radius:4px;
+}
+
+.message.user {
+ align-self:flex-end;
+ background:var(--user);
+ color:white;
+ border-top-right-radius:4px;
+}
+
+.message-name {
+ display:block;
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:1.5px;
+ margin-bottom:6px;
+ opacity:.75;
+}
+
+.thinking {
+ color:var(--accent);
+ animation:thinking 1.2s infinite;
+}
+
+@keyframes thinking {
+ 50% {opacity:.35}
+}
+
+/* INPUT */
+
+.input-wrap {
+ padding:13px;
+ border-top:1px solid var(--border);
+ background:var(--panel);
+}
+
+.input-row {
+ display:flex;
+ align-items:center;
+ gap:7px;
+ padding:6px;
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:13px;
+}
+
+.input-row:focus-within {
+ border-color:var(--accent);
+ box-shadow:0 0 15px var(--glow);
+}
+
+#userInput {
+ flex:1;
+ min-width:0;
+ padding:11px;
+ background:transparent;
+ border:0;
+ outline:0;
+ color:var(--text);
+ font-size:13px;
+}
+
+#userInput::placeholder {
+ color:var(--muted);
+}
+
+.hint {
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ padding:8px 3px 0;
+ font-size:9px;
+ color:var(--muted);
+}
+
+#voiceStatus {
+ color:var(--accent);
+}
+
+/* RIGHT TOOLS */
+
+.tools {
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
+
+.tool-card {
+ padding:15px;
+}
+
+.tool-card h3 {
+ margin-bottom:10px;
+ color:var(--accent);
+ font-size:11px;
+ letter-spacing:1.3px;
+}
+
+.tool-card p,
+.tool-card small {
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.6;
+}
+
+.tool-card input {
+ width:100%;
+ padding:10px;
+ margin:7px 0;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--surface);
+ color:var(--text);
+ outline:none;
+}
+
+.tool-card input:focus {
+ border-color:var(--accent);
+}
+
+.tool-card .btn {
+ width:100%;
+ margin-top:5px;
+ font-size:11px;
+}
+
+.tool-links {
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:7px;
+ margin-top:10px;
+}
+
+.tool-links .btn {
+ margin:0;
+}
+
+/* MEMORY SNAPSHOT */
+
+.memory-card {
+ position:relative;
+ padding:15px;
+ background:
+  radial-gradient(circle at 100% 0%,var(--glow),transparent 45%),
+  var(--panel);
+}
+
+.memory-top {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+ margin-bottom:14px;
+}
+
+.memory-heading {
+ font-size:11px;
+ font-weight:900;
+ letter-spacing:1.2px;
+ color:var(--accent);
+}
+
+.memory-live {
+ color:var(--success);
+ border:1px solid var(--success);
+ border-radius:20px;
+ padding:4px 7px;
+ font-size:8px;
+}
+
+.memory-core {
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px;
+ border:1px solid var(--border);
+ background:var(--surface);
+ border-radius:12px;
+ margin-bottom:10px;
+}
+
+.memory-avatar {
+ width:43px;
+ height:43px;
+ flex-shrink:0;
+ display:grid;
+ place-items:center;
+ border:1px solid var(--accent);
+ border-radius:12px;
+ color:var(--accent);
+ font-size:20px;
+ box-shadow:0 0 14px var(--glow);
+}
+
+.memory-core-info small {
+ display:block;
+ font-size:8px;
+ letter-spacing:1px;
+ color:var(--muted);
+ margin-bottom:5px;
+}
+
+.memory-core-info strong {
+ font-size:13px;
+ overflow-wrap:anywhere;
+}
+
+.memory-grid {
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
+
+.memory-stat {
+ padding:10px;
+ border:1px solid var(--border);
+ background:var(--surface);
+ border-radius:10px;
+}
+
+.memory-stat small {
+ display:block;
+ color:var(--muted);
+ font-size:8px;
+ letter-spacing:.8px;
+ margin-bottom:6px;
+}
+
+.memory-stat strong {
+ color:var(--accent);
+ font-size:18px;
+}
+
+.memory-stat span {
+ display:block;
+ color:var(--muted);
+ font-size:8px;
+ margin-top:3px;
+}
+
+.memory-footer {
+ display:flex;
+ justify-content:space-between;
+ gap:8px;
+ margin-top:11px;
+ padding-top:10px;
+ border-top:1px solid var(--border);
+ color:var(--muted);
+ font-size:8px;
+}
+
+.memory-footer span:last-child {
+ color:var(--success);
+}
+
+.memory-manage {
+ width:100%;
+ margin-top:11px;
+ padding:10px;
+ border:1px solid var(--accent);
+ border-radius:9px;
+ background:var(--glow);
+ color:var(--accent);
+ font-size:10px;
+ font-weight:bold;
+ transition:.2s;
+}
+
+.memory-manage:hover {
+ box-shadow:0 0 17px var(--glow);
+}
+
+/* QUICK ACTIONS */
+
+.quick-actions {
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:8px;
+ margin:15px 0;
+}
+
+.quick-actions .btn {
+ font-size:10px;
+}
+
+/* ERROR */
+
+#debugError {
+ display:none;
+ padding:11px;
+ margin:10px 0;
+ border:1px solid var(--danger);
+ border-radius:9px;
+ background:#ff647c12;
+ color:var(--danger);
+ font-size:11px;
+ overflow-wrap:anywhere;
+}
+
+#debugError.show {
+ display:block;
+}
+
+/* FOOTER */
+
+footer {
+ padding:22px;
+ text-align:center;
+ color:var(--muted);
+ font-size:9px;
+ letter-spacing:1.3px;
+}
+
+/* MODALS */
+
+.overlay {
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:30;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+ background:#020711c9;
+ backdrop-filter:blur(12px);
+}
+
+.overlay.open {
+ display:flex;
+ animation:fadeIn .2s ease;
+}
+
+@keyframes fadeIn {
+ from {opacity:0}
+ to {opacity:1}
+}
+
+.dialog {
+ width:min(600px,100%);
+ max-height:88vh;
+ overflow-y:auto;
+ padding:20px;
+ border:1px solid var(--border);
+ border-radius:18px;
+ background:var(--panel);
+ box-shadow:0 0 40px var(--glow),0 20px 70px #0008;
+ animation:dialogIn .25s ease;
+}
+
+@keyframes dialogIn {
+ from {opacity:0;transform:translateY(12px) scale(.98)}
+ to {opacity:1;transform:translateY(0) scale(1)}
+}
+
+.dialog-head {
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin-bottom:16px;
+}
+
+.dialog-head h2 {
+ font-size:16px;
+ color:var(--accent);
+ letter-spacing:1.3px;
+}
+
+.setting {
+ padding:13px;
+ margin-bottom:10px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:var(--surface);
+}
+
+.setting label {
+ display:block;
+ margin-bottom:8px;
+ font-size:11px;
+ font-weight:bold;
+}
+
+.setting input[type="text"],
+.setting select {
+ width:100%;
+ padding:10px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ background:var(--panel);
+ color:var(--text);
+}
+
+.setting p {
+ margin-top:7px;
+ color:var(--muted);
+ font-size:9px;
+ line-height:1.5;
+}
+
+.setting.toggle {
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.setting.toggle label {
+ margin:0;
+}
+
+.setting.toggle input {
+ width:18px;
+ height:18px;
+ accent-color:var(--accent);
+}
+
+.dialog-actions {
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:12px;
+}
+
+.dialog-actions .btn {
+ flex:1;
+}
+
+/* HISTORY */
+
+.history-search {
+ width:100%;
+ padding:11px;
+ margin-bottom:10px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--surface);
+ color:var(--text);
+}
+
+.history-entry {
+ width:100%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:12px;
+ margin-bottom:7px;
+ text-align:left;
+ border:1px solid var(--border);
+ border-radius:10px;
+ background:var(--surface);
+ color:var(--text);
+}
+
+.history-entry:hover {
+ border-color:var(--accent);
+}
+
+.history-title {
+ min-width:0;
+ overflow:hidden;
+}
+
+.history-title strong {
+ display:block;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+ font-size:11px;
+}
+
+.history-title small {
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ margin-top:5px;
+}
+
+.history-delete {
+ flex-shrink:0;
+ border:0;
+ background:transparent;
+ color:var(--danger);
+ padding:6px;
+}
+
+.empty {
+ padding:20px;
+ text-align:center;
+ color:var(--muted);
+ font-size:11px;
+}
+
+/* MEMORY MANAGER */
+
+.memory-item {
+ padding:12px;
+ margin-bottom:9px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:var(--surface);
+}
+
+.memory-item-top {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+ margin-bottom:7px;
+}
+
+.memory-type {
+ color:var(--accent);
+ font-size:9px;
+ font-weight:bold;
+ text-transform:uppercase;
+ letter-spacing:1px;
+}
+
+.memory-value {
+ font-size:12px;
+ line-height:1.5;
+ overflow-wrap:anywhere;
+}
+
+.memory-item-actions {
+ display:flex;
+ gap:7px;
+ margin-top:9px;
+}
+
+.memory-item-actions button {
+ padding:6px 9px;
+ font-size:9px;
+}
+
+.privacy-note {
+ margin-top:12px;
+ padding:11px;
+ border:1px solid var(--success);
+ border-radius:9px;
+ background:#29e6a10b;
+ color:var(--success);
+ font-size:10px;
+ line-height:1.6;
+}
+
+/* REDUCED MOTION */
+
+@media(prefers-reduced-motion:reduce) {
+ *,
+ *::before,
+ *::after {
+  animation-duration:.01ms !important;
+  animation-iteration-count:1 !important;
+  scroll-behavior:auto !important;
+  transition-duration:.01ms !important;
+ }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px) {
+ .workspace {
+  grid-template-columns:minmax(0,1fr) 250px;
+ }
+ .layout {
+  grid-template-columns:205px minmax(0,1fr);
+ }
+}
+
+@media(max-width:850px) {
+ .layout {
+  grid-template-columns:1fr;
+  padding:12px;
+ }
+
+ .sidebar {
+  position:static;
+  height:auto;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:5px;
+  padding:8px;
+ }
+
+ .side-label,
+ .sidebar-bottom {
+  display:none;
+ }
+
+ .side-btn {
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  padding:10px 3px;
+  text-align:center;
+  font-size:9px;
+ }
+
+ .side-icon {
+  font-size:17px;
+ }
+
+ .workspace {
+  grid-template-columns:minmax(0,1fr) 250px;
+ }
+}
+
+@media(max-width:650px) {
+ header {
+  height:60px;
+  padding:0 12px;
+ }
+
+ .logo {
+  font-size:17px;
+ }
+
+ .online {
+  display:none;
+ }
+
+ .header-actions {
+  gap:6px;
+ }
+
+ .layout {
+  padding:9px;
+ }
+
+ .workspace {
+  grid-template-columns:1fr;
+ }
+
+ .tools {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:start;
+ }
+
+ .memory-card {
+  grid-column:1/-1;
+ }
+
+ .hero {
+  padding:14px 5px 18px;
+ }
+
+ .hero h1 {
+  font-size:34px;
+ }
+
+ .hero p {
+  font-size:10px;
+ }
+
+ .system-chip {
+  font-size:8px;
+  padding:7px;
+ }
+
+ #chat {
+  height:52vh;
+  min-height:320px;
+  padding:12px;
+ }
+
+ .message {
+  max-width:96%;
+  font-size:12px;
+ }
+
+ .reactor {
+  width:75px;
+  height:75px;
+ }
+
+ .input-wrap {
+  padding:8px;
+ }
+
+ .input-row {
+  gap:4px;
+ }
+
+ .input-row .btn {
+  padding:9px;
+ }
+
+ #userInput {
+  padding:8px 5px;
+  font-size:12px;
+ }
+
+ #sendButton {
+  font-size:10px;
+ }
+
+ .hint {
+  font-size:8px;
+ }
+}
+
+@media(max-width:420px) {
+ .tools {
+  grid-template-columns:1fr;
+ }
+
+ .memory-card {
+  grid-column:auto;
+ }
+
+ .hero {
+  flex-direction:column;
+  align-items:flex-start;
+ }
+
+ .system-chip {
+  align-self:flex-start;
+ }
+
+ .sidebar {
+  grid-template-columns:repeat(4,1fr);
+ }
+
+ .side-btn {
+  font-size:8px;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">
+  <div class="logo-mark">✦</div>
+  KIRA AI
+ </div>
+
+ <div class="header-actions">
+  <span class="online" id="systemStatus">● CONNECTING</span>
+  <button class="btn" id="themeButton" title="Change theme">◐ Theme</button>
+  <button class="btn icon-btn" id="settingsButton" title="Settings">⚙</button>
+ </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+ <div class="side-label">COMMAND CENTRE</div>
+
+ <button class="side-btn active" id="newChatButton">
+  <span class="side-icon">＋</span>
+  New chat
+ </button>
+
+ <button class="side-btn" id="historyButton">
+  <span class="side-icon">▤</span>
+  Chat history
+ </button>
+
+ <button class="side-btn" id="memoryButton">
+  <span class="side-icon">◈</span>
+  My memory
+ </button>
+
+ <button class="side-btn" id="settingsSideButton">
+  <span class="side-icon">⚙</span>
+  Settings
+ </button>
+
+ <div class="sidebar-bottom">
+  <div class="private-status">● PRIVATE MEMORY</div>
+  <div>Browser-only storage</div>
+  <div>KIRA-18 CONTROL SYSTEM</div>
+ </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main>
+
+ <section class="hero">
+  <div>
+   <small>✦ PERSONAL AI INTERFACE</small>
+   <h1>Meet <span id="heroName">KIRA</span></h1>
+   <p>Your ideas. Your questions. One intelligent assistant.</p>
+  </div>
+
+  <div class="system-chip" id="heroStatus">
+   ◈ SYSTEM INITIALIZING
+  </div>
+ </section>
+
+ <div class="reactor-area">
+  <div class="reactor">
+   <div class="reactor-core"></div>
+  </div>
+ </div>
+
+ <div id="debugError" role="alert"></div>
+
+ <div class="workspace">
+
+  <!-- CHAT -->
+
+  <section class="chat-card">
+
+   <div class="chat-heading">
+    <strong>✦ CONVERSATION</strong>
+    <span class="muted" id="chatStatus">Ready</span>
+   </div>
+
+   <div id="chat" aria-live="polite">
+    <div class="message kira">
+     <span class="message-name">KIRA</span>
+     Hello! I'm KIRA. Ready for a new mission?
+    </div>
+   </div>
+
+   <div class="input-wrap">
+
+    <div class="input-row">
+     <button class="btn icon-btn" id="micButton" title="Voice input">🎙</button>
+     <button class="btn icon-btn" id="uploadButton" title="Read a document">📎</button>
+
+     <input
+      id="userInput"
+      placeholder="Message KIRA..."
+      autocomplete="off"
+      maxlength="12000"
+     >
+
+     <button class="btn primary" id="sendButton">Send ➤</button>
+    </div>
+
+    <input
+     id="fileInput"
+     type="file"
+     accept=".txt,.md,.csv,.json,.pdf,.docx"
+     hidden
+    >
+
+    <div class="hint">
+     <span id="voiceStatus">Mic: tap to speak</span>
+     <span>Enter to send</span>
+    </div>
+
+   </div>
+  </section>
+
+  <!-- TOOLS -->
+
+  <aside class="tools">
+
+   <div class="tool-card">
+    <h3>⌕ WEB SEARCH</h3>
+    <input id="searchInput" placeholder="Search the web...">
+    <button class="btn" id="searchButton">Search</button>
+    <div class="result" id="searchResults">
+     Search results will appear here.
+    </div>
+   </div>
+
+   <div class="tool-card">
+    <h3>∑ CALCULATOR</h3>
+    <input id="calcInput" placeholder="Example: (25 + 5) * 3">
+    <button class="btn" id="calcButton">Calculate</button>
+    <div class="result" id="calcResult">Basic arithmetic only.</div>
+   </div>
+
+   <div class="tool-card">
+    <h3>⌘ QUICK LAUNCH</h3>
+    <p>Open an approved website in a new tab.</p>
+
+    <div class="tool-links">
+     <button class="btn site" data-url="https://www.google.com">Google</button>
+     <button class="btn site" data-url="https://www.youtube.com">YouTube</button>
+     <button class="btn site" data-url="https://github.com">GitHub</button>
+     <button class="btn site" data-url="https://www.wikipedia.org">Wikipedia</button>
+    </div>
+   </div>
+
+   <!-- MEMORY SNAPSHOT -->
+
+   <div class="memory-card">
+
+    <div class="memory-top">
+     <div class="memory-heading">◈ MEMORY SNAPSHOT</div>
+     <div class="memory-live">● ACTIVE</div>
+    </div>
+
+    <div class="memory-core">
+     <div class="memory-avatar">✧</div>
+
+     <div class="memory-core-info">
+      <small>PERSONAL MEMORY PROFILE</small>
+      <strong id="memoryName">Loading...</strong>
+     </div>
+    </div>
+
+    <div class="memory-grid">
+
+     <div class="memory-stat">
+      <small>FAVOURITES</small>
+      <strong id="memoryFavorites">0</strong>
+      <span>Saved interests</span>
+     </div>
+
+     <div class="memory-stat">
+      <small>PREFERENCES</small>
+      <strong id="memoryPreferences">0</strong>
+      <span>Saved preferences</span>
+     </div>
+
+     <div class="memory-stat">
+      <small>TOTAL MEMORY</small>
+      <strong id="memoryTotal">0</strong>
+      <span>Stored entries</span>
+     </div>
+
+     <div class="memory-stat">
+      <small>MEMORY STATUS</small>
+      <strong style="font-size:13px" id="memoryStatus">READY</strong>
+      <span>Browser storage</span>
+     </div>
+
+    </div>
+
+    <div class="memory-footer">
+     <span>◈ KIRA MEMORY CORE</span>
+     <span>● PRIVATE</span>
+    </div>
+
+    <button class="memory-manage" id="manageMemoryButton">
+     ⚙ MANAGE MEMORY
+    </button>
+
+   </div>
+
+  </aside>
+ </div>
+
+ <div class="quick-actions">
+  <button class="btn quick" data-message="What can you do?">What can you do?</button>
+  <button class="btn quick" data-message="Tell me a joke">Tell me a joke</button>
+  <button class="btn quick" data-message="What time is it?">What's the time?</button>
+  <button class="btn quick" data-message="What do you remember about me?">My memory</button>
+ </div>
+
+</main>
+</div>
+
+<footer>KIRA AI · CREATED BY ATHARV · PRIVATE BROWSER WORKSPACE</footer>
+
+
+<!-- SETTINGS MODAL -->
+
+<div class="overlay" id="settingsOverlay">
+ <section class="dialog">
+
+  <div class="dialog-head">
+   <h2>⚙ KIRA SETTINGS</h2>
+   <button class="btn close" data-close="settingsOverlay">✕</button>
+  </div>
+
+  <div class="setting">
+   <label for="themeSelect">Appearance theme</label>
+   <select id="themeSelect">
+    <option value="iron">Iron Core — JARVIS</option>
+    <option value="neon">Neon Cyber</option>
+    <option value="midnight">Midnight Blue</option>
+    <option value="purple">Royal Purple</option>
+    <option value="light">Pure Light</option>
+   </select>
+  </div>
+
+  <div class="setting">
+   <label for="assistantName">Assistant display name</label>
+   <input id="assistantName" type="text" maxlength="24" value="KIRA">
+  </div>
+
+  <div class="setting">
+   <label for="voiceLanguage">Voice language</label>
+   <select id="voiceLanguage">
+    <option value="en-IN">English India</option>
+    <option value="hi-IN">Hindi India</option>
+   </select>
+   <p>Voice recognition depends on browser support.</p>
+  </div>
+
+  <div class="setting toggle">
+   <label for="speakReplies">Speak replies aloud</label>
+   <input id="speakReplies" type="checkbox">
+  </div>
+
+  <div class="setting toggle">
+   <label for="autoSpeak">Speak after voice input</label>
+   <input id="autoSpeak" type="checkbox">
+  </div>
+
+  <div class="dialog-actions">
+   <button class="btn primary" id="saveSettingsButton">Save settings</button>
+   <button class="btn" id="resetSettingsButton">Reset</button>
+  </div>
+
+  <p id="settingsStatus" class="muted" style="margin-top:12px"></p>
+
+ </section>
+</div>
+
+
+<!-- CHAT HISTORY MODAL -->
+
+<div class="overlay" id="historyOverlay">
+ <section class="dialog">
+
+  <div class="dialog-head">
+   <h2>▤ CHAT HISTORY</h2>
+   <button class="btn close" data-close="historyOverlay">✕</button>
+  </div>
+
+  <input
+   id="historySearch"
+   class="history-search"
+   placeholder="Search your chats..."
+  >
+
+  <div id="historyList">
+   <p class="empty">Loading chats...</p>
+  </div>
+
+  <div class="privacy-note">
+   🔒 Your chat history is stored in this browser only.
+  </div>
+
+ </section>
+</div>
+
+
+<!-- PERSONAL MEMORY MODAL -->
+
+<div class="overlay" id="memoryOverlay">
+ <section class="dialog">
+
+  <div class="dialog-head">
+   <h2>◈ PERSONAL MEMORY</h2>
+   <button class="btn close" data-close="memoryOverlay">✕</button>
+  </div>
+
+  <div class="setting">
+
+   <label for="memoryKind">Memory type</label>
+
+   <select id="memoryKind">
+    <option value="preference">Preference / note</option>
+    <option value="favorite">Favourite</option>
+    <option value="name">My name</option>
+   </select>
+
+   <input
+    id="memoryKey"
+    type="text"
+    placeholder="Category (for favourite)"
+    style="display:none;margin-top:8px"
+   >
+
+   <input
+    id="memoryValue"
+    type="text"
+    placeholder="What should KIRA remember?"
+    style="margin-top:8px"
+   >
+
+   <div class="dialog-actions">
+    <button class="btn primary" id="saveMemoryButton">Save memory</button>
+    <button class="btn" id="cancelMemoryEditButton" style="display:none">Cancel edit</button>
+   </div>
+
+   <p id="memoryFormStatus" class="muted" style="margin-top:9px"></p>
+
+  </div>
+
+  <div id="memoryDetails"></div>
+
+  <button class="btn danger" id="clearMemoryButton" style="width:100%;margin-top:12px">
+   Clear all app memory
+  </button>
+
+  <div class="privacy-note">
+   🔒 Memories are saved in this browser's IndexedDB.
+   They are not stored in the Flask server's chat or memory files.
+  </div>
+
+ </section>
+</div>
+
+
+<script>
+'use strict';
+
+/* ==========================================
+   KIRA — BROWSER STORAGE AND APP LOGIC
+========================================== */
+
+const $ = id => document.getElementById(id);
+
+const DEFAULTS = {
+ theme:'iron',
+ assistantName:'KIRA',
+ voiceLanguage:'en-IN',
+ speakReplies:true,
+ autoSpeak:true
+};
+
+const DB_NAME = 'KIRA_AI_PRIVATE';
+const DB_VERSION = 1;
+
+let db = null;
+let currentChatId = null;
+let currentChat = null;
+let recognition = null;
+let listening = false;
+let documentContext = '';
+let editingMemoryId = null;
+
+
+/* ==========================================
+   INDEXEDDB
+   Each browser profile has its own database.
+========================================== */
+
+function openDatabase() {
+ return new Promise((resolve,reject)=>{
+  const request = indexedDB.open(DB_NAME,DB_VERSION);
+
+  request.onupgradeneeded = event=>{
+   const database = event.target.result;
+
+   if(!database.objectStoreNames.contains('chats')){
+    database.createObjectStore('chats',{keyPath:'id'});
+   }
+
+   if(!database.objectStoreNames.contains('memory')){
+    database.createObjectStore('memory',{keyPath:'id'});
+   }
+  };
+
+  request.onsuccess = ()=>{
+   db = request.result;
+
+   db.onversionchange = ()=>{
+    db.close();
+   };
+
+   resolve(db);
+  };
+
+  request.onerror = ()=>{
+   reject(request.error || Error('Could not open browser storage'));
+  };
+ });
+}
+
+
+function dbRequest(storeName,mode,action) {
+ return new Promise((resolve,reject)=>{
+  if(!db){
+   reject(Error('Browser database is not ready'));
+   return;
+  }
+
+  const transaction = db.transaction(storeName,mode);
+  const store = transaction.objectStore(storeName);
+
+  let request;
+
+  try{
+   request = action(store);
+  }catch(error){
+   reject(error);
+   return;
+  }
+
+  if(request){
+   request.onsuccess = ()=>resolve(request.result);
+   request.onerror = ()=>reject(request.error);
+  }else{
+   transaction.oncomplete = ()=>resolve(true);
+  }
+
+  transaction.onerror = ()=>reject(transaction.error);
+ });
+}
+
+
+async function saveChat(chat) {
+ await dbRequest('chats','readwrite',store=>store.put(chat));
+}
+
+
+async function getChat(id) {
+ return dbRequest('chats','readonly',store=>store.get(id));
+}
+
+
+async function getAllChats() {
+ const chats = await dbRequest(
+  'chats',
+  'readonly',
+  store=>store.getAll()
+ );
+
+ return (chats || []).sort(
+  (a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt)
+ );
+}
+
+
+async function deleteChat(id) {
+ await dbRequest('chats','readwrite',store=>store.delete(id));
+}
+
+
+async function getMemory() {
+ const data = await dbRequest(
+  'memory',
+  'readonly',
+  store=>store.get('profile')
+ );
+
+ return data || {
+  id:'profile',
+  name:null,
+  preferences:[],
+  favorites:{},
+  notes:[]
+ };
+}
+
+
+async function saveMemoryData(memory) {
+ memory.id = 'profile';
+
+ await dbRequest(
+  'memory',
+  'readwrite',
+  store=>store.put(memory)
+ );
+}
+
+
+/* ==========================================
+   SETTINGS
+========================================== */
+
+function settings() {
+ try{
+  return {
+   ...DEFAULTS,
+   ...JSON.parse(localStorage.getItem('kiraSettingsV5') || '{}')
+  };
+ }catch{
+  return {...DEFAULTS};
+ }
+}
+
+
+function applySettings() {
+ const s = settings();
+
+ document.body.classList.remove(
+  'iron','neon','midnight','purple','light'
+ );
+
+ if(s.theme !== 'iron'){
+  document.body.classList.add(s.theme);
+ }
+
+ $('heroName').textContent = s.assistantName;
+ $('userInput').placeholder = 'Message ' + s.assistantName + '...';
+
+ document.title = s.assistantName + ' AI';
+
+ if(recognition){
+  recognition.lang = s.voiceLanguage;
+ }
+}
+
+
+/* ==========================================
+   ERROR HANDLING
+========================================== */
+
+function reportError(message) {
+ $('debugError').textContent = 'KIRA: ' + message;
+ $('debugError').classList.add('show');
+ console.error(message);
+}
+
+window.addEventListener('error',event=>{
+ reportError(event.message || 'Unknown interface error');
+});
+
+window.addEventListener('unhandledrejection',event=>{
+ reportError(String(event.reason || 'Unexpected error'));
+});
+
+
+/* ==========================================
+   MODALS
+========================================== */
+
+function openOverlay(id) {
+ $(id).classList.add('open');
+}
+
+function closeOverlay(id) {
+ $(id).classList.remove('open');
+}
+
+document.querySelectorAll('[data-close]').forEach(button=>{
+ button.onclick = ()=>closeOverlay(button.dataset.close);
+});
+
+document.querySelectorAll('.overlay').forEach(overlay=>{
+ overlay.addEventListener('click',event=>{
+  if(event.target === overlay){
+   overlay.classList.remove('open');
+  }
+ });
+});
+
+document.addEventListener('keydown',event=>{
+ if(event.key === 'Escape'){
+  document.querySelectorAll('.overlay').forEach(overlay=>{
+   overlay.classList.remove('open');
+  });
+ }
+});
+
+
+/* ==========================================
+   CHAT DISPLAY
+========================================== */
+
+function addMessage(role,text) {
+ const box = document.createElement('div');
+
+ box.className = 'message ' + (
+  role === 'user' ? 'user' : 'kira'
+ );
+
+ const name = document.createElement('span');
+ name.className = 'message-name';
+
+ name.textContent = role === 'user'
+  ? 'YOU'
+  : settings().assistantName;
+
+ const body = document.createElement('span');
+ body.textContent = String(text ?? '');
+
+ box.append(name,body);
+
+ $('chat').append(box);
+ $('chat').scrollTop = $('chat').scrollHeight;
+
+ return box;
+}
+
+
+function welcome() {
+ $('chat').replaceChildren();
+
+ addMessage(
+  'assistant',
+  'Hello! I\'m ' + settings().assistantName +
+  '. Ready for a new mission?'
+ );
+}
+
+
+function renderChat(chat) {
+ $('chat').replaceChildren();
+
+ if(!chat.messages || !chat.messages.length){
+  welcome();
+  return;
+ }
+
+ chat.messages.forEach(message=>{
+  addMessage(message.role,message.content);
+ });
+
+ $('chat').scrollTop = $('chat').scrollHeight;
+}
+
+
+/* ==========================================
+   NEW CHAT
+   Generated and stored in this browser.
+========================================== */
+
+async function newChat() {
+ try{
+  currentChatId = crypto.randomUUID();
+
+  currentChat = {
+   id:currentChatId,
+   title:'New Chat',
+   createdAt:new Date().toISOString(),
+   updatedAt:new Date().toISOString(),
+   messages:[]
+  };
+
+  await saveChat(currentChat);
+
+  welcome();
+
+  $('chatStatus').textContent = 'New conversation';
+  $('debugError').classList.remove('show');
+
+  document.querySelectorAll('.side-btn').forEach(button=>{
+   button.classList.remove('active');
+  });
+
+  $('newChatButton').classList.add('active');
+
+ }catch(error){
+  reportError('Could not create chat: ' + error.message);
+ }
+}
+
+
+/* ==========================================
+   MEMORY COMMANDS
+   These commands are handled locally.
+========================================== */
+
+async function handleMemoryCommand(message) {
+ const text = message.trim();
+ const lower = text.toLowerCase();
+
+ let memory = await getMemory();
+
+ // Save name
+ if(lower.startsWith('my name is ')){
+  const name = text.slice(11).trim();
+
+  if(name){
+   memory.name = name;
+   await saveMemoryData(memory);
+   await loadMemory();
+
+   return 'Saved. I will remember your name is ' + name + '.';
+  }
+ }
+
+ // Save favourite
+ for(const prefix of ['my favourite ','my favorite ']){
+  if(lower.startsWith(prefix) && lower.includes(' is ')){
+   const rest = text.slice(prefix.length);
+   const splitAt = rest.toLowerCase().indexOf(' is ');
+
+   const category = rest.slice(0,splitAt).trim();
+   const value = rest.slice(splitAt+4).trim();
+
+   if(category && value){
+    memory.favorites[category] = value;
+    await saveMemoryData(memory);
+    await loadMemory();
+
+    return 'I will remember your favourite ' + category + ' is ' + value + '.';
+   }
+  }
+ }
+
+ // Save a note
+ if(lower.startsWith('remember that ')){
+  const note = text.slice(14).trim();
+
+  if(note){
+   if(!memory.preferences.includes(note)){
+    memory.preferences.push(note);
+   }
+
+   await saveMemoryData(memory);
+   await loadMemory();
+
+   return 'Saved to your personal memory.';
+  }
+ }
+
+ // Forget name
+ if(lower.startsWith('forget my name')){
+  memory.name = null;
+  await saveMemoryData(memory);
+  await loadMemory();
+
+  return 'Your saved name has been cleared.';
+ }
+
+ // Clear memory
+ if(
+  lower.startsWith('forget all my memories') ||
+  lower.startsWith('clear my memory')
+ ){
+  await saveMemoryData({
+   id:'profile',
+   name:null,
+   preferences:[],
+   favorites:{},
+   notes:[]
+  });
+
+  await loadMemory();
+
+  return 'Your personal KIRA memory has been cleared.';
+ }
+
+ // Forget favourite
+ if(
+  lower.startsWith('forget my favourite ') ||
+  lower.startsWith('forget my favorite ')
+ ){
+  const category = text.replace(
+   /^forget my favou?rite\s+/i,
+   ''
+  ).trim().toLowerCase();
+
+  const key = Object.keys(memory.favorites).find(
+   item=>item.toLowerCase() === category
+  );
+
+  if(key){
+   delete memory.favorites[key];
+   await saveMemoryData(memory);
+   await loadMemory();
+
+   return 'Cleared your saved ' + category + ' favourite.';
+  }
+
+  return 'I could not find that saved favourite.';
+ }
+
+ // Recall name
+ if(
+  lower.includes('what is my name') ||
+  lower.includes('do you know my name')
+ ){
+  return memory.name
+   ? 'Your name is ' + memory.name + '.'
+   : 'You have not saved your name yet.';
+ }
+
+ // Show memory
+ if(
+  lower.includes('what do you remember about me') ||
+  lower.includes('show my memory')
+ ){
+  return JSON.stringify(memory,null,2);
+ }
+
+ // Recall favourite
+ if(
+  lower.includes('what is my favourite') ||
+  lower.includes('what is my favorite')
+ ){
+  const match = Object.entries(memory.favorites).find(
+   ([category])=>lower.includes(category.toLowerCase())
+  );
+
+  if(match){
+   return 'Your favourite ' + match[0] + ' is ' + match[1] + '.';
+  }
+
+  const entries = Object.entries(memory.favorites);
+
+  if(entries.length){
+   return entries.map(
+    ([key,value])=>'Your favourite '+key+' is '+value+'.'
+   ).join('\n');
+  }
+
+  return 'No favourites are saved yet.';
+ }
+
+ return null;
+}
+
+
+/* ==========================================
+   SEND MESSAGE
+========================================== */
+
+async function sendMessage() {
+ const text = $('userInput').value.trim();
+
+ if(!text || $('sendButton').disabled){
+  return;
+ }
+
+ if(!currentChat){
+  await newChat();
+
+  if(!currentChat){
+   return;
+  }
+ }
+
+ $('userInput').value = '';
+
+ addMessage('user',text);
+
+ currentChat.messages.push({
+  role:'user',
+  content:text
+ });
+
+ if(currentChat.messages.length === 1){
+  currentChat.title = text.slice(0,45);
+ }
+
+ currentChat.updatedAt = new Date().toISOString();
+
+ $('sendButton').disabled = true;
+ $('chatStatus').textContent = 'Processing...';
+
+ const loading = addMessage('assistant','KIRA is thinking...');
+ loading.querySelector('span:last-child').className = 'thinking';
+
+ try{
+  // Memory commands are handled by this browser.
+  const localReply = await handleMemoryCommand(text);
+
+  if(localReply !== null){
+   loading.remove();
+
+   addMessage('assistant',localReply);
+
+   currentChat.messages.push({
+    role:'assistant',
+    content:localReply
+   });
+
+   currentChat.updatedAt = new Date().toISOString();
+
+   await saveChat(currentChat);
+
+   return;
+  }
+
+  const memory = await getMemory();
+
+  const memoryContext = JSON.stringify({
+   name:memory.name,
+   preferences:memory.preferences,
+   favorites:memory.favorites,
+   notes:memory.notes
+  });
+
+  const controller = new AbortController();
+
+  const timer = setTimeout(()=>controller.abort(),60000);
+
+  let response;
+
+  try{
+   response = await fetch('/chat',{
+    method:'POST',
+    headers:{
+     'Content-Type':'application/json'
+    },
+    body:JSON.stringify({
+     message:text,
+     messages:currentChat.messages.slice(-12),
+     memory_context:memoryContext,
+     tool_context:documentContext
+    }),
+    signal:controller.signal
+   });
+  }finally{
+   clearTimeout(timer);
+  }
+
+  const data = await response.json();
+
+  if(!response.ok){
+   throw Error(data.error || 'Server error ' + response.status);
+  }
+
+  const reply = data.reply || 'No response received.';
+
+  loading.remove();
+  addMessage('assistant',reply);
+
+  currentChat.messages.push({
+   role:'assistant',
+   content:reply
+  });
+
+  currentChat.updatedAt = new Date().toISOString();
+
+  // Chat is saved ONLY in this browser.
+  await saveChat(currentChat);
+
+  // The document is attached only to the next message.
+  documentContext = '';
+
+  if(
+   settings().speakReplies &&
+   settings().autoSpeak &&
+   window.speechSynthesis
+  ){
+   speakText(reply);
+  }
+
+ }catch(error){
+  loading.remove();
+
+  const errorMessage = error.name === 'AbortError'
+   ? 'Request timed out. Check your connection and try again.'
+   : 'Request failed: ' + error.message;
+
+  addMessage('assistant',errorMessage);
+
+  currentChat.messages.push({
+   role:'assistant',
+   content:errorMessage
+  });
+
+  currentChat.updatedAt = new Date().toISOString();
+
+  await saveChat(currentChat);
+
+ }finally{
+  $('sendButton').disabled = false;
+  $('chatStatus').textContent = 'Ready';
+  $('userInput').focus();
+ }
+}
+
+
+/* ==========================================
+   CHAT HISTORY
+========================================== */
+
+async function loadHistory() {
+ const list = $('historyList');
+
+ list.replaceChildren();
+
+ try{
+  const chats = await getAllChats();
+
+  if(!chats.length){
+   list.innerHTML = '<p class="empty">No saved chats yet.</p>';
+   return;
+  }
+
+  chats.forEach(chat=>{
+   const row = document.createElement('div');
+   row.className = 'history-entry';
+
+   const info = document.createElement('div');
+   info.className = 'history-title';
+
+   const title = document.createElement('strong');
+   title.textContent = chat.title || 'New Chat';
+
+   const date = document.createElement('small');
+   date.textContent = chat.updatedAt
+    ? new Date(chat.updatedAt).toLocaleString()
+    : '';
+
+   info.append(title,date);
+
+   const actions = document.createElement('div');
+   actions.style.display = 'flex';
+   actions.style.gap = '5px';
+
+   const open = document.createElement('button');
+   open.className = 'btn';
+   open.textContent = 'Open';
+   open.style.fontSize = '9px';
+
+   open.onclick = ()=>openSavedChat(chat.id);
+
+   const remove = document.createElement('button');
+   remove.className = 'history-delete';
+   remove.textContent = '✕';
+   remove.title = 'Delete chat';
+
+   remove.onclick = async event=>{
+    event.stopPropagation();
+
+    if(!confirm('Delete this chat from this browser?')){
+     return;
+    }
+
+    await deleteChat(chat.id);
+
+    if(currentChatId === chat.id){
+     await newChat();
+    }
+
+    await loadHistory();
+   };
+
+   actions.append(open,remove);
+   row.append(info,actions);
+   list.append(row);
+  });
+
+ }catch(error){
+  list.textContent = 'Could not load chat history: ' + error.message;
+ }
+}
+
+
+async function openSavedChat(id) {
+ try{
+  const chat = await getChat(id);
+
+  if(!chat){
+   throw Error('Chat not found in this browser.');
+  }
+
+  currentChat = chat;
+  currentChatId = chat.id;
+
+  renderChat(chat);
+
+  $('chatStatus').textContent = 'Saved conversation';
+
+  closeOverlay('historyOverlay');
+
+ }catch(error){
+  reportError(error.message);
+ }
+}
+
+
+$('historySearch').oninput = async ()=>{
+ const query = $('historySearch').value.toLowerCase();
+ const chats = await getAllChats();
+
+ $('historyList').replaceChildren();
+
+ const filtered = chats.filter(chat=>
+  (chat.title || '').toLowerCase().includes(query)
+ );
+
+ if(!filtered.length){
+  $('historyList').innerHTML = '<p class="empty">No matching chats.</p>';
+  return;
+ }
+
+ filtered.forEach(chat=>{
+  const row = document.createElement('div');
+  row.className = 'history-entry';
+
+  const title = document.createElement('div');
+  title.className = 'history-title';
+
+  const strong = document.createElement('strong');
+  strong.textContent = chat.title || 'New Chat';
+
+  const small = document.createElement('small');
+  small.textContent = new Date(chat.updatedAt).toLocaleString();
+
+  title.append(strong,small);
+
+  const button = document.createElement('button');
+  button.className = 'btn';
+  button.textContent = 'Open';
+
+  button.onclick = ()=>openSavedChat(chat.id);
+
+  row.append(title,button);
+  $('historyList').append(row);
+ });
+};
+
+
+/* ==========================================
+   MEMORY SNAPSHOT
+========================================== */
+
+async function loadMemory() {
+ try{
+  const memory = await getMemory();
+
+  const favourites = memory.favorites || {};
+  const preferences = memory.preferences || [];
+  const notes = memory.notes || [];
+
+  const favouriteCount = Object.keys(favourites).length;
+  const preferenceCount = preferences.length;
+
+  const total =
+   favouriteCount +
+   preferenceCount +
+   notes.length +
+   (memory.name ? 1 : 0);
+
+  $('memoryName').textContent = memory.name || 'Unknown User';
+  $('memoryFavorites').textContent = favouriteCount;
+  $('memoryPreferences').textContent = preferenceCount;
+  $('memoryTotal').textContent = total;
+  $('memoryStatus').textContent = 'READY';
+
+  renderMemoryDetails(memory);
+
+ }catch(error){
+  $('memoryName').textContent = 'Unavailable';
+  $('memoryStatus').textContent = 'ERROR';
+  $('memoryDetails').textContent = error.message;
+ }
+}
+
+
+function renderMemoryDetails(memory) {
+ const container = $('memoryDetails');
+ container.replaceChildren();
+
+ const entries = [];
+
+ if(memory.name){
+  entries.push({
+   id:'name',
+   type:'name',
+   value:memory.name
+  });
+ }
+
+ Object.entries(memory.favorites || {}).forEach(([key,value])=>{
+  entries.push({
+   id:'favorite:' + key,
+   type:'Favourite · ' + key,
+   value
+  });
+ });
+
+ (memory.preferences || []).forEach((value,index)=>{
+  entries.push({
+   id:'preference:' + index,
+   type:'Preference / note',
+   value
+  });
+ });
+
+ (memory.notes || []).forEach((value,index)=>{
+  entries.push({
+   id:'note:' + index,
+   type:'Note',
+   value
+  });
+ });
+
+ if(!entries.length){
+  const empty = document.createElement('p');
+  empty.className = 'empty';
+  empty.textContent = 'No memories saved yet. Add your first memory above.';
+  container.append(empty);
+  return;
+ }
+
+ entries.forEach(entry=>{
+  const card = document.createElement('div');
+  card.className = 'memory-item';
+
+  const top = document.createElement('div');
+  top.className = 'memory-item-top';
+
+  const type = document.createElement('span');
+  type.className = 'memory-type';
+  type.textContent = entry.type;
+
+  top.append(type);
+
+  const value = document.createElement('div');
+  value.className = 'memory-value';
+  value.textContent = entry.value;
+
+  const actions = document.createElement('div');
+  actions.className = 'memory-item-actions';
+
+  const edit = document.createElement('button');
+  edit.className = 'btn';
+  edit.textContent = 'Edit';
+
+  edit.onclick = ()=>editMemory(entry);
+
+  const remove = document.createElement('button');
+  remove.className = 'btn danger';
+  remove.textContent = 'Delete';
+
+  remove.onclick = ()=>deleteMemoryEntry(entry);
+
+  actions.append(edit,remove);
+  card.append(top,value,actions);
+  container.append(card);
+ });
+}
+
+
+/* ==========================================
+   MEMORY SAVE / EDIT / DELETE
+========================================== */
+
+function resetMemoryForm() {
+ editingMemoryId = null;
+
+ $('memoryKind').value = 'preference';
+ $('memoryKey').value = '';
+ $('memoryValue').value = '';
+
+ $('memoryKey').style.display = 'none';
+
+ $('memoryValue').placeholder = 'What should KIRA remember?';
+
+ $('saveMemoryButton').textContent = 'Save memory';
+ $('cancelMemoryEditButton').style.display = 'none';
+
+ $('memoryFormStatus').textContent = '';
+}
+
+
+function editMemory(entry) {
+ editingMemoryId = entry.id;
+
+ if(entry.type === 'name'){
+  $('memoryKind').value = 'name';
+  $('memoryKey').value = '';
+  $('memoryKey').style.display = 'none';
+
+ }else if(entry.id.startsWith('favorite:')){
+  $('memoryKind').value = 'favorite';
+  $('memoryKey').value = entry.id.slice(9);
+  $('memoryKey').style.display = 'block';
+
+ }else{
+  $('memoryKind').value = 'preference';
+  $('memoryKey').style.display = 'none';
+ }
+
+ $('memoryValue').value = entry.value;
+ $('saveMemoryButton').textContent = 'Update memory';
+ $('cancelMemoryEditButton').style.display = 'inline-block';
+
+ $('memoryFormStatus').textContent = 'Editing saved memory.';
+
+ $('memoryValue').focus();
+}
+
+
+async function deleteMemoryEntry(entry) {
+ if(!confirm('Delete this memory?')){
+  return;
+ }
+
+ const memory = await getMemory();
+
+ if(entry.type === 'name'){
+  memory.name = null;
+
+ }else if(entry.id.startsWith('favorite:')){
+  const key = entry.id.slice(9);
+  delete memory.favorites[key];
+
+ }else if(entry.id.startsWith('preference:')){
+  const index = Number(entry.id.split(':')[1]);
+  memory.preferences.splice(index,1);
+
+ }else if(entry.id.startsWith('note:')){
+  const index = Number(entry.id.split(':')[1]);
+  memory.notes.splice(index,1);
+ }
+
+ await saveMemoryData(memory);
+ await loadMemory();
+}
+
+
+async function saveMemory() {
+ const kind = $('memoryKind').value;
+ const key = $('memoryKey').value.trim();
+ const value = $('memoryValue').value.trim();
+
+ if(!value){
+  $('memoryValue').focus();
+  return;
+ }
+
+ if(kind === 'favorite' && !key){
+  $('memoryKey').focus();
+  $('memoryFormStatus').textContent = 'Enter a favourite category.';
+  return;
+ }
+
+ try{
+  const memory = await getMemory();
+
+  // Editing an existing entry
+  if(editingMemoryId){
+   const oldId = editingMemoryId;
+
+   if(oldId === 'name'){
+    memory.name = null;
+
+   }else if(oldId.startsWith('favorite:')){
+    delete memory.favorites[oldId.slice(9)];
+
+   }else if(oldId.startsWith('preference:')){
+    const index = Number(oldId.split(':')[1]);
+    memory.preferences.splice(index,1);
+
+   }else if(oldId.startsWith('note:')){
+    const index = Number(oldId.split(':')[1]);
+    memory.notes.splice(index,1);
+   }
+  }
+
+  if(kind === 'name'){
+   memory.name = value;
+
+  }else if(kind === 'favorite'){
+   memory.favorites[key] = value;
+
+  }else if(kind === 'preference'){
+   if(!memory.preferences.includes(value)){
+    memory.preferences.push(value);
+   }
+  }
+
+  await saveMemoryData(memory);
+  await loadMemory();
+
+  resetMemoryForm();
+
+  $('memoryFormStatus').textContent = 'Memory saved successfully.';
+
+ }catch(error){
+  $('memoryFormStatus').textContent = error.message;
+ }
+}
+
+
+async function clearMemory() {
+ if(!confirm('Clear all personal memories from this browser? Chat history will remain.')){
+  return;
+ }
+
+ await saveMemoryData({
+  id:'profile',
+  name:null,
+  preferences:[],
+  favorites:{},
+  notes:[]
+ });
+
+ resetMemoryForm();
+ await loadMemory();
+}
+
+
+/* ==========================================
+   WEB SEARCH
+========================================== */
+
+async function runSearch() {
+ const query = $('searchInput').value.trim();
+
+ if(!query){
+  return;
+ }
+
+ $('searchResults').textContent = 'Searching...';
+
+ try{
+  const response = await fetch('/api/search',{
+   method:'POST',
+   headers:{
+    'Content-Type':'application/json'
+   },
+   body:JSON.stringify({query})
+  });
+
+  const data = await response.json();
+
+  if(!response.ok){
+   throw Error(data.error || 'Search failed');
+  }
+
+  const box = $('searchResults');
+  box.replaceChildren();
+
+  if(!data.results?.length){
+   box.textContent = 'No results found.';
+   return;
+  }
+
+  data.results.forEach(item=>{
+   const paragraph = document.createElement('p');
+   paragraph.style.margin = '9px 0';
+
+   const link = document.createElement('a');
+   link.href = item.url;
+   link.target = '_blank';
+   link.rel = 'noopener noreferrer';
+   link.textContent = item.title;
+   link.style.color = 'var(--accent)';
+
+   const snippet = document.createElement('span');
+   snippet.textContent = ' — ' + item.snippet;
+
+   paragraph.append(link,snippet);
+   box.append(paragraph);
+  });
+
+ }catch(error){
+  $('searchResults').textContent = error.message;
+ }
+}
+
+
+/* ==========================================
+   CALCULATOR
+========================================== */
+
+async function calculate() {
+ const expression = $('calcInput').value.trim();
+
+ if(!expression){
+  return;
+ }
+
+ try{
+  const response = await fetch('/api/calculate',{
+   method:'POST',
+   headers:{
+    'Content-Type':'application/json'
+   },
+   body:JSON.stringify({expression})
+  });
+
+  const data = await response.json();
+
+  $('calcResult').textContent = response.ok
+   ? 'Result: ' + data.result
+   : 'Error: ' + data.error;
+
+ }catch(error){
+  $('calcResult').textContent = error.message;
+ }
+}
+
+
+/* ==========================================
+   DOCUMENT READER
+========================================== */
+
+async function uploadDocument(file) {
+ if(!file){
+  return;
+ }
+
+ $('voiceStatus').textContent = 'Reading ' + file.name + '...';
+
+ const form = new FormData();
+ form.append('file',file);
+
+ try{
+  const response = await fetch('/api/upload',{
+   method:'POST',
+   body:form
+  });
+
+  const data = await response.json();
+
+  if(!response.ok){
+   throw Error(data.error || 'Upload failed');
+  }
+
+  documentContext =
+   'Document: ' + data.filename +
+   '\nExtracted text:\n' + data.text;
+
+  addMessage(
+   'assistant',
+   'Document read: ' + data.filename +
+   '. Ask me a question about it. The document text will be included with your next message.'
+  );
+
+  $('voiceStatus').textContent = 'Document ready';
+
+ }catch(error){
+  $('voiceStatus').textContent = 'Upload failed';
+  addMessage('assistant','Document error: ' + error.message);
+ }
+}
+
+
+/* ==========================================
+   VOICE INPUT AND SPEECH
+========================================== */
+
+function speakText(text) {
+ if(!window.speechSynthesis){
+  return;
+ }
+
+ const utterance = new SpeechSynthesisUtterance(text);
+ utterance.lang = settings().voiceLanguage;
+
+ window.speechSynthesis.cancel();
+ window.speechSynthesis.speak(utterance);
+}
+
+
+function setupVoice() {
+ const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+ if(!SpeechRecognition){
+  $('voiceStatus').textContent =
+   'Voice input unsupported in this browser';
+
+  $('micButton').disabled = true;
+  return;
+ }
+
+ recognition = new SpeechRecognition();
+
+ recognition.lang = settings().voiceLanguage;
+ recognition.continuous = false;
+ recognition.interimResults = true;
+
+ recognition.onstart = ()=>{
+  listening = true;
+  $('micButton').textContent = '■';
+  $('voiceStatus').textContent = 'Listening...';
+ };
+
+ recognition.onresult = event=>{
+  let text = '';
+
+  for(let i=event.resultIndex;i<event.results.length;i++){
+   text += event.results[i][0].transcript;
+  }
+
+  $('userInput').value = text.trim();
+
+  const last = event.results[event.results.length-1];
+
+  if(last.isFinal){
+   $('userInput').value = $('userInput').value
+    .replace(/^kira[\s,:-]*/i,'')
+    .trim();
+
+   if($('userInput').value){
+    sendMessage();
+   }
+  }
+ };
+
+ recognition.onerror = event=>{
+  $('voiceStatus').textContent = 'Voice error: ' + event.error;
+ };
+
+ recognition.onend = ()=>{
+  listening = false;
+  $('micButton').textContent = '🎙';
+
+  if($('voiceStatus').textContent === 'Listening...'){
+   $('voiceStatus').textContent = 'Mic: tap to speak';
+  }
+ };
+}
+
+
+/* ==========================================
+   THEME
+========================================== */
+
+function changeTheme(theme) {
+ const current = settings();
+
+ current.theme = theme;
+
+ localStorage.setItem(
+  'kiraSettingsV5',
+  JSON.stringify(current)
+ );
+
+ applySettings();
+}
+
+
+function toggleTheme() {
+ const themes = [
+  'iron',
+  'neon',
+  'midnight',
+  'purple',
+  'light'
+ ];
+
+ const current = settings().theme;
+ const next = themes[
+  (themes.indexOf(current)+1) % themes.length
+ ];
+
+ changeTheme(next);
+}
+
+
+/* ==========================================
+   SETTINGS
+========================================== */
+
+function openSettings() {
+ const s = settings();
+
+ $('themeSelect').value = s.theme;
+ $('assistantName').value = s.assistantName;
+ $('voiceLanguage').value = s.voiceLanguage;
+ $('speakReplies').checked = s.speakReplies;
+ $('autoSpeak').checked = s.autoSpeak;
+
+ openOverlay('settingsOverlay');
+}
+
+
+function saveSettings() {
+ const name = $('assistantName').value.trim();
+
+ const s = {
+  theme:$('themeSelect').value,
+  assistantName:name || 'KIRA',
+  voiceLanguage:$('voiceLanguage').value,
+  speakReplies:$('speakReplies').checked,
+  autoSpeak:$('autoSpeak').checked
+ };
+
+ localStorage.setItem('kiraSettingsV5',JSON.stringify(s));
+
+ applySettings();
+
+ $('settingsStatus').textContent = 'Settings saved successfully.';
+}
+
+
+function resetSettings() {
+ localStorage.setItem(
+  'kiraSettingsV5',
+  JSON.stringify(DEFAULTS)
+ );
+
+ applySettings();
+ openSettings();
+
+ $('settingsStatus').textContent = 'Settings reset.';
+}
+
+
+/* ==========================================
+   SERVER STATUS
+========================================== */
+
+async function checkStatus() {
+ try{
+  const response = await fetch('/api/status');
+  const data = await response.json();
+
+  if(data.configured){
+   $('systemStatus').textContent = '● KIRA ONLINE';
+   $('heroStatus').textContent = '◈ SYSTEM OPERATIONAL';
+   $('systemStatus').style.color = 'var(--success)';
+  }else{
+   $('systemStatus').textContent = '● API KEY MISSING';
+   $('heroStatus').textContent = '◈ CONFIGURATION REQUIRED';
+   $('systemStatus').style.color = 'var(--danger)';
+  }
+
+ }catch{
+  $('systemStatus').textContent = '● SERVER OFFLINE';
+  $('heroStatus').textContent = '◈ CONNECTION LOST';
+  $('systemStatus').style.color = 'var(--danger)';
+ }
+}
+
+
+/* ==========================================
+   BUTTON CONNECTIONS
+========================================== */
+
+$('sendButton').onclick = sendMessage;
+
+$('userInput').addEventListener('keydown',event=>{
+ if(event.key === 'Enter' && !event.shiftKey){
+  event.preventDefault();
+  sendMessage();
+ }
+});
+
+$('newChatButton').onclick = newChat;
+
+$('historyButton').onclick = async ()=>{
+ $('historySearch').value = '';
+ await loadHistory();
+ openOverlay('historyOverlay');
+};
+
+$('settingsButton').onclick =
+ $('settingsSideButton').onclick = openSettings;
+
+$('themeButton').onclick = toggleTheme;
+
+$('saveSettingsButton').onclick = saveSettings;
+
+$('resetSettingsButton').onclick = resetSettings;
+
+
+// Memory
+$('memoryButton').onclick =
+ $('manageMemoryButton').onclick = async ()=>{
+  await loadMemory();
+  resetMemoryForm();
+  openOverlay('memoryOverlay');
+ };
+
+$('saveMemoryButton').onclick = saveMemory;
+
+$('cancelMemoryEditButton').onclick = resetMemoryForm;
+
+$('clearMemoryButton').onclick = clearMemory;
+
+
+// Memory type selector
+$('memoryKind').onchange = ()=>{
+ const kind = $('memoryKind').value;
+
+ $('memoryKey').style.display =
+  kind === 'favorite' ? 'block' : 'none';
+
+ $('memoryValue').placeholder =
+  kind === 'name'
+   ? 'Your name'
+   : 'What should KIRA remember?';
+};
+
+
+// Voice
+$('micButton').onclick = ()=>{
+ if(!recognition){
+  return;
+ }
+
+ if(listening){
+  recognition.stop();
+ }else{
+  recognition.lang = settings().voiceLanguage;
+
+  try{
+   recognition.start();
+  }catch{
+   $('voiceStatus').textContent = 'Could not start microphone.';
+  }
+ }
+};
+
+
+// Search
+$('searchButton').onclick = runSearch;
+
+$('searchInput').addEventListener('keydown',event=>{
+ if(event.key === 'Enter'){
+  runSearch();
+ }
+});
+
+
+// Calculator
+$('calcButton').onclick = calculate;
+
+$('calcInput').addEventListener('keydown',event=>{
+ if(event.key === 'Enter'){
+  calculate();
+ }
+});
+
+
+// Documents
+$('uploadButton').onclick = ()=> $('fileInput').click();
+
+$('fileInput').onchange = event=>{
+ uploadDocument(event.target.files[0]);
+ event.target.value = '';
+};
+
+
+// Quick prompts
+document.querySelectorAll('.quick').forEach(button=>{
+ button.onclick = ()=>{
+  $('userInput').value = button.dataset.message;
+  sendMessage();
+ };
+});
+
+
+// Approved quick launch websites
+document.querySelectorAll('.site').forEach(button=>{
+ button.onclick = ()=>{
+  window.open(
+   button.dataset.url,
+   '_blank',
+   'noopener,noreferrer'
+  );
+ };
+});
+
+
+/* ==========================================
+   START KIRA
+========================================== */
+
+async function initializeKira() {
+ try{
+  await openDatabase();
+
+  applySettings();
+
+  setupVoice();
+
+  await checkStatus();
+
+  await loadMemory();
+
+  await newChat();
+
+  $('chatStatus').textContent = 'Ready';
+
+ }catch(error){
+  reportError(
+   'Could not initialize browser storage: ' + error.message
+  );
+
+  $('memoryName').textContent = 'Storage unavailable';
+  $('memoryStatus').textContent = 'ERROR';
+ }
+}
+
+initializeKira();
+
+</script>
+</body>
+</html>
