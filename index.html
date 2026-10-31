@@ -3,1227 +3,832 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#070d18">
+<meta name="theme-color" content="#7658e8">
 <title>KIRA AI</title>
 
 <style>
-/* ==========================================
-   KIRA AI — JARVIS INTERFACE
-========================================== */
-
 :root {
- --bg:#070d18;
- --panel:#0c1728;
- --surface:#12243a;
- --surface2:#172d45;
- --text:#eaf6ff;
- --muted:#8da7bd;
- --border:#25435e;
- --accent:#42d8ff;
- --accent2:#ff9d42;
- --user:#15547a;
- --success:#29e6a1;
- --danger:#ff647c;
- --shadow:#0009;
- --glow:#42d8ff35;
+  --bg:#f3f1ff;
+  --panel:#ffffff;
+  --surface:#eeebff;
+  --text:#24213b;
+  --muted:#77738f;
+  --border:#dedaf0;
+  --accent:#7658e8;
+  --user:#7658e8;
+  --shadow:0 12px 40px #5540a515;
+  --danger:#d94c61;
+  --success:#18a879;
 }
 
-body.neon {
- --bg:#080b18;
- --panel:#11152a;
- --surface:#1a2140;
- --surface2:#252c50;
- --text:#f0f1ff;
- --muted:#9ba5ca;
- --border:#373d72;
- --accent:#8c85ff;
- --accent2:#43d9ff;
- --user:#4247a0;
- --success:#48e7b0;
- --glow:#8c85ff40;
+body.dark {
+  --bg:#090d1b;
+  --panel:#141a2d;
+  --surface:#222b46;
+  --text:#f5f3ff;
+  --muted:#a5abc4;
+  --border:#303a5b;
+  --accent:#9b83ff;
+  --user:#6250c7;
+  --shadow:0 12px 40px #0005;
 }
 
 body.midnight {
- --bg:#041522;
- --panel:#092237;
- --surface:#10314a;
- --surface2:#16405d;
- --text:#e7f8ff;
- --muted:#91b8ce;
- --border:#24536c;
- --accent:#38d5f4;
- --accent2:#4b94ff;
- --user:#12618b;
- --success:#25d7a0;
- --glow:#38d5f440;
-}
-
-body.purple {
- --bg:#100b1d;
- --panel:#1b1230;
- --surface:#291b43;
- --surface2:#382452;
- --text:#f5edff;
- --muted:#b7a4d0;
- --border:#493267;
- --accent:#c18aff;
- --accent2:#ff8acb;
- --user:#633b91;
- --success:#56e6b0;
- --glow:#c18aff40;
-}
-
-body.light {
- --bg:#eef3fa;
- --panel:#ffffff;
- --surface:#f1f5fb;
- --surface2:#e5edf7;
- --text:#1a2a40;
- --muted:#71839b;
- --border:#d3dfed;
- --accent:#1879c9;
- --accent2:#8b58e9;
- --user:#2866a3;
- --success:#119b71;
- --danger:#d94d66;
- --shadow:#536e8b22;
- --glow:#1879c925;
+  --bg:#071827;
+  --panel:#10263c;
+  --surface:#1b3853;
+  --text:#eff8ff;
+  --muted:#a5bfd5;
+  --border:#294b69;
+  --accent:#36b8f4;
+  --user:#176b9e;
+  --shadow:0 12px 40px #0005;
 }
 
 * {
- box-sizing:border-box;
- margin:0;
- padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body {
- min-height:100vh;
- font-family:Inter,"Segoe UI",Arial,sans-serif;
- background:
-  radial-gradient(ellipse at 10% 0%,var(--glow),transparent 35%),
-  radial-gradient(ellipse at 100% 100%,#4b66ff10,transparent 40%),
-  var(--bg);
- color:var(--text);
- transition:background .3s,color .3s;
+  min-height:100vh;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 15% 5%,#bbaaff44,transparent 35%),
+    radial-gradient(circle at 90% 90%,#45cfff22,transparent 35%),
+    var(--bg);
+  color:var(--text);
+  transition:background .2s,color .2s;
 }
 
 button,input,select,textarea {
- font:inherit;
+  font:inherit;
 }
 
 button {
- cursor:pointer;
+  cursor:pointer;
 }
 
 button:disabled {
- opacity:.5;
- cursor:not-allowed;
+  opacity:.5;
+  cursor:not-allowed;
 }
 
 button:focus-visible,
 input:focus-visible,
+textarea:focus-visible,
 select:focus-visible {
- outline:2px solid var(--accent);
- outline-offset:3px;
+  outline:2px solid var(--accent);
+  outline-offset:2px;
 }
-
-::selection {
- background:var(--accent);
- color:#071322;
-}
-
-/* HEADER */
 
 header {
- height:68px;
- padding:0 24px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- position:sticky;
- top:0;
- z-index:10;
- background:color-mix(in srgb,var(--panel) 88%,transparent);
- backdrop-filter:blur(18px);
- border-bottom:1px solid var(--border);
+  height:68px;
+  padding:0 4%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .logo {
- display:flex;
- align-items:center;
- gap:10px;
- font-size:21px;
- font-weight:900;
- letter-spacing:3px;
- color:var(--accent);
- text-shadow:0 0 18px var(--glow);
-}
-
-.logo-mark {
- width:35px;
- height:35px;
- border:1px solid var(--accent);
- border-radius:11px;
- display:grid;
- place-items:center;
- box-shadow:0 0 17px var(--glow);
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:3px;
+  color:var(--accent);
 }
 
 .header-actions {
- display:flex;
- align-items:center;
- gap:9px;
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
 
 .online {
- color:var(--success);
- font-size:10px;
- font-weight:bold;
- letter-spacing:1px;
+  font-size:11px;
+  color:var(--success);
+  font-weight:bold;
+  margin-right:8px;
 }
 
 .btn {
- padding:10px 13px;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--surface);
- color:var(--text);
- transition:.2s ease;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:9px 12px;
+  background:var(--surface);
+  color:var(--text);
+  transition:.15s;
 }
 
 .btn:hover {
- border-color:var(--accent);
- box-shadow:0 0 15px var(--glow);
- transform:translateY(-1px);
+  border-color:var(--accent);
+  transform:translateY(-1px);
 }
 
 .primary {
- background:var(--accent);
- border-color:var(--accent);
- color:#061421;
- font-weight:800;
+  background:var(--accent);
+  color:white;
+  border-color:var(--accent);
 }
 
 .danger {
- color:var(--danger);
+  color:var(--danger);
 }
-
-.icon-btn {
- width:39px;
- height:39px;
- padding:0;
- display:grid;
- place-items:center;
- font-size:17px;
-}
-
-/* MAIN LAYOUT */
 
 .layout {
- width:min(1600px,100%);
- margin:auto;
- padding:20px;
- display:grid;
- grid-template-columns:245px minmax(0,1fr);
- gap:18px;
+  width:min(1450px,100%);
+  margin:auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  gap:18px;
 }
 
 .sidebar {
- position:sticky;
- top:87px;
- height:calc(100vh - 108px);
- min-height:450px;
- display:flex;
- flex-direction:column;
- padding:14px;
- border:1px solid var(--border);
- border-radius:18px;
- background:var(--panel);
- box-shadow:0 15px 40px var(--shadow);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:13px;
+  height:fit-content;
+  position:sticky;
+  top:85px;
 }
 
-.side-label {
- margin:13px 9px 8px;
- color:var(--muted);
- font-size:9px;
- letter-spacing:2px;
- font-weight:800;
+.side-title {
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin:8px;
 }
 
 .side-btn {
- width:100%;
- padding:12px;
- display:flex;
- align-items:center;
- gap:12px;
- text-align:left;
- border:1px solid transparent;
- border-radius:11px;
- background:transparent;
- color:var(--text);
- font-size:12px;
- transition:.2s;
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:11px;
+  border:1px solid transparent;
+  border-radius:10px;
+  background:transparent;
+  color:var(--text);
+  margin:4px 0;
 }
 
-.side-btn:hover,
-.side-btn.active {
- background:var(--surface);
- border-color:var(--border);
- color:var(--accent);
+.side-btn:hover {
+  background:var(--surface);
+  border-color:var(--border);
 }
 
-.side-icon {
- width:22px;
- text-align:center;
- font-size:17px;
+.side-note {
+  border-top:1px solid var(--border);
+  padding:13px 7px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
 }
-
-.sidebar-bottom {
- margin-top:auto;
- border-top:1px solid var(--border);
- padding:14px 8px 4px;
- color:var(--muted);
- font-size:10px;
- line-height:1.8;
-}
-
-.private-status {
- display:flex;
- align-items:center;
- gap:7px;
- color:var(--success);
- font-weight:bold;
-}
-
-/* MAIN */
 
 main {
- min-width:0;
+  min-width:0;
 }
 
 .hero {
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:15px;
- padding:12px 10px 20px;
+  text-align:center;
+  padding:12px 10px 20px;
 }
 
 .hero small {
- color:var(--accent);
- letter-spacing:3px;
- font-size:10px;
- font-weight:800;
+  color:var(--accent);
+  font-weight:bold;
+  letter-spacing:2px;
 }
 
 .hero h1 {
- font-size:clamp(29px,4vw,45px);
- letter-spacing:2px;
- margin:7px 0;
+  font-size:clamp(32px,5vw,52px);
+  margin:9px 0;
 }
 
 .hero h1 span {
- color:var(--accent);
+  color:var(--accent);
 }
 
 .hero p {
- color:var(--muted);
- font-size:12px;
+  color:var(--muted);
+  font-size:13px;
 }
 
-.system-chip {
- padding:9px 12px;
- border:1px solid var(--border);
- background:var(--panel);
- border-radius:30px;
- color:var(--success);
- font-size:9px;
- letter-spacing:1px;
- white-space:nowrap;
+.orb {
+  width:54px;
+  height:54px;
+  margin:0 auto 17px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:24px;
+  background:linear-gradient(135deg,var(--accent),#35cfff);
+  box-shadow:0 0 30px #8c7cff66;
+  animation:pulse 3s infinite;
 }
 
-/* ARC REACTOR */
-
-.reactor-area {
- display:flex;
- justify-content:center;
- padding:5px 0 22px;
+@keyframes pulse {
+  50% {
+    transform:scale(1.06);
+    box-shadow:0 0 42px #8c7cff88;
+  }
 }
-
-.reactor {
- position:relative;
- width:95px;
- height:95px;
- border-radius:50%;
- display:grid;
- place-items:center;
- background:
-  radial-gradient(circle,#e9ffff 0%,var(--accent) 8%,#18749c 24%,#102c46 43%,transparent 65%);
- box-shadow:
-  0 0 16px var(--accent),
-  0 0 40px var(--glow),
-  inset 0 0 18px #ffffff35;
- animation:reactorPulse 3s ease-in-out infinite;
-}
-
-.reactor:before,
-.reactor:after {
- content:"";
- position:absolute;
- border:1px solid var(--accent);
- border-radius:50%;
-}
-
-.reactor:before {
- inset:-9px;
- border-left-color:transparent;
- border-right-color:transparent;
- animation:spin 8s linear infinite;
-}
-
-.reactor:after {
- inset:-17px;
- border-top-color:transparent;
- border-bottom-color:transparent;
- opacity:.6;
- animation:spin 12s linear infinite reverse;
-}
-
-.reactor-core {
- width:28px;
- height:28px;
- border:2px solid white;
- border-radius:50%;
- box-shadow:0 0 15px white;
-}
-
-@keyframes spin {
- to {transform:rotate(360deg)}
-}
-
-@keyframes reactorPulse {
- 50% {
-  transform:scale(1.06);
-  filter:brightness(1.3);
- }
-}
-
-/* WORKSPACE */
 
 .workspace {
- display:grid;
- grid-template-columns:minmax(0,1fr) 290px;
- gap:15px;
- align-items:start;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 245px;
+  gap:14px;
+  align-items:start;
 }
 
 .chat-card,
-.tool-card,
-.memory-card {
- border:1px solid var(--border);
- border-radius:17px;
- background:var(--panel);
- box-shadow:0 12px 35px var(--shadow);
- overflow:hidden;
-}
-
-.chat-card {
- min-width:0;
+.tool-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
 }
 
 .chat-heading {
- padding:15px 17px;
- border-bottom:1px solid var(--border);
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
-}
-
-.chat-heading strong {
- font-size:11px;
- letter-spacing:1.4px;
+  padding:13px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:11px;
+  font-weight:bold;
 }
 
 .muted {
- color:var(--muted);
- font-size:10px;
+  color:var(--muted);
+  font-weight:normal;
 }
 
 #chat {
- height:470px;
- min-height:300px;
- overflow-y:auto;
- padding:18px;
- display:flex;
- flex-direction:column;
- gap:15px;
- scroll-behavior:smooth;
-}
-
-#chat::-webkit-scrollbar,
-.dialog::-webkit-scrollbar {
- width:6px;
-}
-
-#chat::-webkit-scrollbar-thumb,
-.dialog::-webkit-scrollbar-thumb {
- background:var(--border);
- border-radius:20px;
+  height:430px;
+  min-height:300px;
+  overflow-y:auto;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  scroll-behavior:smooth;
 }
 
 .message {
- max-width:88%;
- padding:13px 15px;
- border-radius:15px;
- font-size:13px;
- line-height:1.75;
- white-space:pre-wrap;
- overflow-wrap:anywhere;
- animation:messageIn .25s ease;
-}
-
-@keyframes messageIn {
- from {opacity:0;transform:translateY(8px)}
- to {opacity:1;transform:translateY(0)}
+  max-width:88%;
+  padding:12px 15px;
+  border-radius:14px;
+  font-size:13px;
+  line-height:1.65;
+  overflow-wrap:anywhere;
 }
 
 .message.kira {
- align-self:flex-start;
- background:var(--surface);
- border:1px solid var(--border);
- border-top-left-radius:4px;
+  align-self:flex-start;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-top-left-radius:4px;
 }
 
 .message.user {
- align-self:flex-end;
- background:var(--user);
- color:white;
- border-top-right-radius:4px;
+  align-self:flex-end;
+  background:var(--user);
+  color:white;
+  border-top-right-radius:4px;
 }
 
 .message-name {
- display:block;
- font-size:9px;
- font-weight:900;
- letter-spacing:1.5px;
- margin-bottom:6px;
- opacity:.75;
+  display:block;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-bottom:5px;
+  opacity:.7;
+}
+
+.message-body p {
+  margin:5px 0;
+}
+
+.message-body h1,
+.message-body h2,
+.message-body h3 {
+  margin:12px 0 6px;
+  line-height:1.3;
+}
+
+.message-body h1 {font-size:20px}
+.message-body h2 {font-size:17px}
+.message-body h3 {font-size:15px}
+
+.message-body ul,
+.message-body ol {
+  padding-left:22px;
+  margin:7px 0;
+}
+
+.message-body li {
+  margin:3px 0;
+}
+
+.message-body blockquote {
+  border-left:3px solid var(--accent);
+  padding-left:10px;
+  margin:8px 0;
+  color:var(--muted);
+}
+
+.message-body pre {
+  background:#111827;
+  color:#e5e7eb;
+  padding:12px;
+  border-radius:10px;
+  overflow-x:auto;
+  margin:9px 0;
+  font-size:12px;
+}
+
+.message-body code {
+  font-family:Consolas,monospace;
+  background:#00000012;
+  padding:2px 5px;
+  border-radius:5px;
+}
+
+.message-body pre code {
+  background:transparent;
+  padding:0;
+}
+
+.message-body a {
+  color:var(--accent);
+  text-decoration:underline;
+}
+
+.message-body hr {
+  border:0;
+  border-top:1px solid var(--border);
+  margin:10px 0;
 }
 
 .thinking {
- color:var(--accent);
- animation:thinking 1.2s infinite;
+  color:var(--accent);
+  font-style:italic;
 }
-
-@keyframes thinking {
- 50% {opacity:.35}
-}
-
-/* INPUT */
 
 .input-wrap {
- padding:13px;
- border-top:1px solid var(--border);
- background:var(--panel);
+  padding:12px;
+  border-top:1px solid var(--border);
 }
 
 .input-row {
- display:flex;
- align-items:center;
- gap:7px;
- padding:6px;
- background:var(--surface);
- border:1px solid var(--border);
- border-radius:13px;
-}
-
-.input-row:focus-within {
- border-color:var(--accent);
- box-shadow:0 0 15px var(--glow);
+  display:flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  padding:6px;
 }
 
 #userInput {
- flex:1;
- min-width:0;
- padding:11px;
- background:transparent;
- border:0;
- outline:0;
- color:var(--text);
- font-size:13px;
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  padding:9px;
 }
 
 #userInput::placeholder {
- color:var(--muted);
+  color:var(--muted);
+}
+
+#sendButton {
+  background:var(--accent);
+  color:white;
+  border-color:var(--accent);
 }
 
 .hint {
- display:flex;
- justify-content:space-between;
- gap:10px;
- padding:8px 3px 0;
- font-size:9px;
- color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:10px;
+  padding:8px 3px 0;
+  gap:8px;
 }
 
 #voiceStatus {
- color:var(--accent);
+  color:var(--accent);
 }
 
-/* RIGHT TOOLS */
+.quick-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:12px 0;
+  justify-content:center;
+}
+
+.quick-actions button {
+  font-size:10px;
+  border-radius:25px;
+}
 
 .tools {
- display:flex;
- flex-direction:column;
- gap:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
 .tool-card {
- padding:15px;
+  padding:13px;
 }
 
 .tool-card h3 {
- margin-bottom:10px;
- color:var(--accent);
- font-size:11px;
- letter-spacing:1.3px;
+  font-size:12px;
+  color:var(--accent);
+  margin-bottom:10px;
+  letter-spacing:.5px;
 }
 
 .tool-card p,
 .tool-card small {
- color:var(--muted);
- font-size:10px;
- line-height:1.6;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
 }
 
-.tool-card input {
- width:100%;
- padding:10px;
- margin:7px 0;
- border:1px solid var(--border);
- border-radius:9px;
- background:var(--surface);
- color:var(--text);
- outline:none;
-}
-
-.tool-card input:focus {
- border-color:var(--accent);
+.tool-card input,
+.tool-card textarea,
+.tool-card select {
+  width:100%;
+  margin:7px 0;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--surface);
+  color:var(--text);
+  outline:none;
 }
 
 .tool-card .btn {
- width:100%;
- margin-top:5px;
- font-size:11px;
+  width:100%;
+  margin-top:5px;
+  font-size:11px;
 }
 
 .tool-links {
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:7px;
- margin-top:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
 }
 
 .tool-links .btn {
- margin:0;
+  margin:0;
 }
 
-/* MEMORY SNAPSHOT */
-
-.memory-card {
- position:relative;
- padding:15px;
- background:
-  radial-gradient(circle at 100% 0%,var(--glow),transparent 45%),
-  var(--panel);
+.result {
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:8px;
+  overflow-wrap:anywhere;
 }
 
-.memory-top {
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- margin-bottom:14px;
+.result a {
+  color:var(--accent);
 }
 
-.memory-heading {
- font-size:11px;
- font-weight:900;
- letter-spacing:1.2px;
- color:var(--accent);
+.memory-box {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:11px;
+  margin-top:8px;
 }
 
-.memory-live {
- color:var(--success);
- border:1px solid var(--success);
- border-radius:20px;
- padding:4px 7px;
- font-size:8px;
+.memory-topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
 }
 
-.memory-core {
- display:flex;
- align-items:center;
- gap:12px;
- padding:12px;
- border:1px solid var(--border);
- background:var(--surface);
- border-radius:12px;
- margin-bottom:10px;
+.memory-count {
+  font-size:23px;
+  font-weight:800;
 }
 
-.memory-avatar {
- width:43px;
- height:43px;
- flex-shrink:0;
- display:grid;
- place-items:center;
- border:1px solid var(--accent);
- border-radius:12px;
- color:var(--accent);
- font-size:20px;
- box-shadow:0 0 14px var(--glow);
+.memory-count-label {
+  font-size:10px;
+  color:var(--muted);
 }
 
-.memory-core-info small {
- display:block;
- font-size:8px;
- letter-spacing:1px;
- color:var(--muted);
- margin-bottom:5px;
+.memory-state {
+  font-size:9px;
+  color:var(--success);
+  display:flex;
+  align-items:center;
+  gap:5px;
 }
 
-.memory-core-info strong {
- font-size:13px;
- overflow-wrap:anywhere;
+.memory-pulse {
+  width:6px;
+  height:6px;
+  background:var(--success);
+  border-radius:50%;
 }
 
-.memory-grid {
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
+.memory-groups {
+  margin-top:9px;
+  display:grid;
+  gap:7px;
 }
 
-.memory-stat {
- padding:10px;
- border:1px solid var(--border);
- background:var(--surface);
- border-radius:10px;
+.memory-group {
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  border-top:1px solid var(--border);
+  padding-top:8px;
 }
 
-.memory-stat small {
- display:block;
- color:var(--muted);
- font-size:8px;
- letter-spacing:.8px;
- margin-bottom:6px;
+.memory-icon {
+  color:var(--accent);
 }
 
-.memory-stat strong {
- color:var(--accent);
- font-size:18px;
+.memory-group-title {
+  font-size:9px;
+  font-weight:bold;
+  color:var(--muted);
 }
 
-.memory-stat span {
- display:block;
- color:var(--muted);
- font-size:8px;
- margin-top:3px;
+.memory-group-value {
+  font-size:11px;
+  overflow-wrap:anywhere;
 }
 
-.memory-footer {
- display:flex;
- justify-content:space-between;
- gap:8px;
- margin-top:11px;
- padding-top:10px;
- border-top:1px solid var(--border);
- color:var(--muted);
- font-size:8px;
-}
-
-.memory-footer span:last-child {
- color:var(--success);
+.memory-empty {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  padding:12px 0 3px;
 }
 
 .memory-manage {
- width:100%;
- margin-top:11px;
- padding:10px;
- border:1px solid var(--accent);
- border-radius:9px;
- background:var(--glow);
- color:var(--accent);
- font-size:10px;
- font-weight:bold;
- transition:.2s;
+  width:100%;
+  margin-top:8px;
+  font-size:11px;
 }
-
-.memory-manage:hover {
- box-shadow:0 0 17px var(--glow);
-}
-
-/* QUICK ACTIONS */
-
-.quick-actions {
- display:flex;
- flex-wrap:wrap;
- justify-content:center;
- gap:8px;
- margin:15px 0;
-}
-
-.quick-actions .btn {
- font-size:10px;
-}
-
-/* ERROR */
-
-#debugError {
- display:none;
- padding:11px;
- margin:10px 0;
- border:1px solid var(--danger);
- border-radius:9px;
- background:#ff647c12;
- color:var(--danger);
- font-size:11px;
- overflow-wrap:anywhere;
-}
-
-#debugError.show {
- display:block;
-}
-
-/* FOOTER */
 
 footer {
- padding:22px;
- text-align:center;
- color:var(--muted);
- font-size:9px;
- letter-spacing:1.3px;
+  text-align:center;
+  color:var(--muted);
+  padding:18px;
+  font-size:10px;
 }
 
-/* MODALS */
-
 .overlay {
- display:none;
- position:fixed;
- inset:0;
- z-index:30;
- align-items:center;
- justify-content:center;
- padding:15px;
- background:#020711c9;
- backdrop-filter:blur(12px);
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0009;
+  z-index:30;
+  padding:15px;
+  align-items:center;
+  justify-content:center;
 }
 
 .overlay.open {
- display:flex;
- animation:fadeIn .2s ease;
-}
-
-@keyframes fadeIn {
- from {opacity:0}
- to {opacity:1}
+  display:flex;
 }
 
 .dialog {
- width:min(600px,100%);
- max-height:88vh;
- overflow-y:auto;
- padding:20px;
- border:1px solid var(--border);
- border-radius:18px;
- background:var(--panel);
- box-shadow:0 0 40px var(--glow),0 20px 70px #0008;
- animation:dialogIn .25s ease;
-}
-
-@keyframes dialogIn {
- from {opacity:0;transform:translateY(12px) scale(.98)}
- to {opacity:1;transform:translateY(0) scale(1)}
+  width:min(480px,100%);
+  max-height:85vh;
+  overflow-y:auto;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:18px;
+  box-shadow:var(--shadow);
 }
 
 .dialog-head {
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- margin-bottom:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:17px;
 }
 
 .dialog-head h2 {
- font-size:16px;
- color:var(--accent);
- letter-spacing:1.3px;
+  font-size:16px;
+  color:var(--accent);
+  letter-spacing:1px;
 }
 
 .setting {
- padding:13px;
- margin-bottom:10px;
- border:1px solid var(--border);
- border-radius:11px;
- background:var(--surface);
+  margin:12px 0;
 }
 
 .setting label {
- display:block;
- margin-bottom:8px;
- font-size:11px;
- font-weight:bold;
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:6px;
 }
 
-.setting input[type="text"],
+.setting input:not([type=checkbox]),
 .setting select {
- width:100%;
- padding:10px;
- border:1px solid var(--border);
- border-radius:8px;
- background:var(--panel);
- color:var(--text);
+  width:100%;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--surface);
+  color:var(--text);
 }
 
 .setting p {
- margin-top:7px;
- color:var(--muted);
- font-size:9px;
- line-height:1.5;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:6px;
 }
 
 .setting.toggle {
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.setting.toggle label {
- margin:0;
-}
-
-.setting.toggle input {
- width:18px;
- height:18px;
- accent-color:var(--accent);
-}
-
-.dialog-actions {
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-top:12px;
-}
-
-.dialog-actions .btn {
- flex:1;
-}
-
-/* HISTORY */
-
-.history-search {
- width:100%;
- padding:11px;
- margin-bottom:10px;
- border:1px solid var(--border);
- border-radius:9px;
- background:var(--surface);
- color:var(--text);
+.dialog > .btn {
+  margin:5px 3px 0 0;
 }
 
 .history-entry {
- width:100%;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- padding:12px;
- margin-bottom:7px;
- text-align:left;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--surface);
- color:var(--text);
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:11px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  border-radius:9px;
+  margin:7px 0;
 }
 
 .history-entry:hover {
- border-color:var(--accent);
+  border-color:var(--accent);
 }
 
-.history-title {
- min-width:0;
- overflow:hidden;
+.history-entry strong {
+  display:block;
+  font-size:12px;
 }
 
-.history-title strong {
- display:block;
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap;
- font-size:11px;
-}
-
-.history-title small {
- display:block;
- color:var(--muted);
- font-size:9px;
- margin-top:5px;
-}
-
-.history-delete {
- flex-shrink:0;
- border:0;
- background:transparent;
- color:var(--danger);
- padding:6px;
+.history-entry small {
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
 }
 
 .empty {
- padding:20px;
- text-align:center;
- color:var(--muted);
- font-size:11px;
+  color:var(--muted);
+  font-size:12px;
+  padding:15px 0;
 }
-
-/* MEMORY MANAGER */
 
 .memory-item {
- padding:12px;
- margin-bottom:9px;
- border:1px solid var(--border);
- border-radius:11px;
- background:var(--surface);
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:10px;
+  padding:10px;
+  margin:8px 0;
 }
 
-.memory-item-top {
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- margin-bottom:7px;
+.memory-item strong {
+  display:block;
+  font-size:11px;
+  margin-bottom:5px;
 }
 
-.memory-type {
- color:var(--accent);
- font-size:9px;
- font-weight:bold;
- text-transform:uppercase;
- letter-spacing:1px;
-}
-
-.memory-value {
- font-size:12px;
- line-height:1.5;
- overflow-wrap:anywhere;
-}
-
-.memory-item-actions {
- display:flex;
- gap:7px;
- margin-top:9px;
-}
-
-.memory-item-actions button {
- padding:6px 9px;
- font-size:9px;
-}
-
-.privacy-note {
- margin-top:12px;
- padding:11px;
- border:1px solid var(--success);
- border-radius:9px;
- background:#29e6a10b;
- color:var(--success);
- font-size:10px;
- line-height:1.6;
-}
-
-/* REDUCED MOTION */
-
-@media(prefers-reduced-motion:reduce) {
- *,
- *::before,
- *::after {
-  animation-duration:.01ms !important;
-  animation-iteration-count:1 !important;
-  scroll-behavior:auto !important;
-  transition-duration:.01ms !important;
- }
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1100px) {
- .workspace {
-  grid-template-columns:minmax(0,1fr) 250px;
- }
- .layout {
-  grid-template-columns:205px minmax(0,1fr);
- }
-}
-
-@media(max-width:850px) {
- .layout {
-  grid-template-columns:1fr;
-  padding:12px;
- }
-
- .sidebar {
-  position:static;
-  height:auto;
-  min-height:0;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:5px;
-  padding:8px;
- }
-
- .side-label,
- .sidebar-bottom {
-  display:none;
- }
-
- .side-btn {
-  flex-direction:column;
-  justify-content:center;
-  gap:5px;
-  padding:10px 3px;
-  text-align:center;
-  font-size:9px;
- }
-
- .side-icon {
-  font-size:17px;
- }
-
- .workspace {
-  grid-template-columns:minmax(0,1fr) 250px;
- }
-}
-
-@media(max-width:650px) {
- header {
-  height:60px;
-  padding:0 12px;
- }
-
- .logo {
-  font-size:17px;
- }
-
- .online {
-  display:none;
- }
-
- .header-actions {
-  gap:6px;
- }
-
- .layout {
-  padding:9px;
- }
-
- .workspace {
-  grid-template-columns:1fr;
- }
-
- .tools {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:start;
- }
-
- .memory-card {
-  grid-column:1/-1;
- }
-
- .hero {
-  padding:14px 5px 18px;
- }
-
- .hero h1 {
-  font-size:34px;
- }
-
- .hero p {
-  font-size:10px;
- }
-
- .system-chip {
-  font-size:8px;
-  padding:7px;
- }
-
- #chat {
-  height:52vh;
-  min-height:320px;
-  padding:12px;
- }
-
- .message {
-  max-width:96%;
+.memory-item span {
   font-size:12px;
- }
-
- .reactor {
-  width:75px;
-  height:75px;
- }
-
- .input-wrap {
-  padding:8px;
- }
-
- .input-row {
-  gap:4px;
- }
-
- .input-row .btn {
-  padding:9px;
- }
-
- #userInput {
-  padding:8px 5px;
-  font-size:12px;
- }
-
- #sendButton {
-  font-size:10px;
- }
-
- .hint {
-  font-size:8px;
- }
+  overflow-wrap:anywhere;
 }
 
-@media(max-width:420px) {
- .tools {
-  grid-template-columns:1fr;
- }
+.memory-item button {
+  float:right;
+  border:0;
+  background:transparent;
+  color:var(--danger);
+  font-size:11px;
+}
 
- .memory-card {
-  grid-column:auto;
- }
+#debugError {
+  display:none;
+  background:#d94c6118;
+  border:1px solid var(--danger);
+  color:var(--danger);
+  padding:10px;
+  margin:10px 0;
+  border-radius:9px;
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
 
- .hero {
-  flex-direction:column;
-  align-items:flex-start;
- }
+#debugError.show {
+  display:block;
+}
 
- .system-chip {
-  align-self:flex-start;
- }
+@media(max-width:1050px) {
+  .workspace {
+    grid-template-columns:minmax(0,1fr);
+  }
 
- .sidebar {
-  grid-template-columns:repeat(4,1fr);
- }
+  .tools {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
 
- .side-btn {
-  font-size:8px;
- }
+@media(max-width:700px) {
+  header {
+    padding:0 12px;
+  }
+
+  .layout {
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+
+  .sidebar {
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+  }
+
+  .side-title,
+  .side-note {
+    display:none;
+  }
+
+  .side-btn {
+    text-align:center;
+    font-size:11px;
+    padding:9px 4px;
+  }
+
+  .tools {
+    grid-template-columns:1fr;
+  }
+
+  #chat {
+    height:55vh;
+    min-height:320px;
+  }
+
+  .message {
+    max-width:94%;
+  }
+
+  .online {
+    display:none;
+  }
+
+  .header-actions .btn {
+    padding:8px;
+    font-size:11px;
+  }
+}
+
+@media(max-width:400px) {
+  .logo {
+    font-size:17px;
+  }
+
+  .header-actions {
+    gap:4px;
+  }
+
+  .hint {
+    font-size:9px;
+  }
 }
 </style>
 </head>
@@ -1231,393 +836,266 @@ footer {
 <body>
 
 <header>
- <div class="logo">
-  <div class="logo-mark">✦</div>
-  KIRA AI
- </div>
+  <div class="logo">KIRA-18</div>
 
- <div class="header-actions">
-  <span class="online" id="systemStatus">● CONNECTING</span>
-  <button class="btn" id="themeButton" title="Change theme">◐ Theme</button>
-  <button class="btn icon-btn" id="settingsButton" title="Settings">⚙</button>
- </div>
+  <div class="header-actions">
+    <span class="online" id="systemStatus">● CONNECTING</span>
+    <button class="btn" id="themeButton" title="Change theme">◐</button>
+    <button class="btn" id="historyButton">History</button>
+    <button class="btn" id="settingsButton">⚙</button>
+  </div>
 </header>
 
 <div class="layout">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
+  <div class="side-title">MAIN MENU</div>
+  <button class="side-btn" id="newChatButton">＋ New chat</button>
+  <button class="side-btn" id="historySideButton">▤ Chat history</button>
+  <button class="side-btn" id="memoryButton">✦ My memory</button>
+  <button class="side-btn" id="settingsSideButton">⚙ Settings</button>
 
- <div class="side-label">COMMAND CENTRE</div>
+  <div class="side-title">DATA</div>
+  <button class="side-btn" id="exportButton">↓ Export backup</button>
+  <button class="side-btn" id="importButton">↑ Import backup</button>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
 
- <button class="side-btn active" id="newChatButton">
-  <span class="side-icon">＋</span>
-  New chat
- </button>
-
- <button class="side-btn" id="historyButton">
-  <span class="side-icon">▤</span>
-  Chat history
- </button>
-
- <button class="side-btn" id="memoryButton">
-  <span class="side-icon">◈</span>
-  My memory
- </button>
-
- <button class="side-btn" id="settingsSideButton">
-  <span class="side-icon">⚙</span>
-  Settings
- </button>
-
- <div class="sidebar-bottom">
-  <div class="private-status">● PRIVATE MEMORY</div>
-  <div>Browser-only storage</div>
-  <div>KIRA-18 CONTROL SYSTEM</div>
- </div>
-
+  <div class="side-note">
+    KIRA AI V5<br>
+    Personal browser storage<br>
+    <span style="color:var(--success)">● LOCAL DATA MODE</span>
+  </div>
 </aside>
-
-<!-- MAIN CONTENT -->
 
 <main>
 
- <section class="hero">
-  <div>
-   <small>✦ PERSONAL AI INTERFACE</small>
-   <h1>Meet <span id="heroName">KIRA</span></h1>
-   <p>Your ideas. Your questions. One intelligent assistant.</p>
-  </div>
-
-  <div class="system-chip" id="heroStatus">
-   ◈ SYSTEM INITIALIZING
-  </div>
- </section>
-
- <div class="reactor-area">
-  <div class="reactor">
-   <div class="reactor-core"></div>
-  </div>
- </div>
-
- <div id="debugError" role="alert"></div>
-
- <div class="workspace">
-
-  <!-- CHAT -->
-
-  <section class="chat-card">
-
-   <div class="chat-heading">
-    <strong>✦ CONVERSATION</strong>
-    <span class="muted" id="chatStatus">Ready</span>
-   </div>
-
-   <div id="chat" aria-live="polite">
-    <div class="message kira">
-     <span class="message-name">KIRA</span>
-     Hello! I'm KIRA. Ready for a new mission?
-    </div>
-   </div>
-
-   <div class="input-wrap">
-
-    <div class="input-row">
-     <button class="btn icon-btn" id="micButton" title="Voice input">🎙</button>
-     <button class="btn icon-btn" id="uploadButton" title="Read a document">📎</button>
-
-     <input
-      id="userInput"
-      placeholder="Message KIRA..."
-      autocomplete="off"
-      maxlength="12000"
-     >
-
-     <button class="btn primary" id="sendButton">Send ➤</button>
-    </div>
-
-    <input
-     id="fileInput"
-     type="file"
-     accept=".txt,.md,.csv,.json,.pdf,.docx"
-     hidden
-    >
-
-    <div class="hint">
-     <span id="voiceStatus">Mic: tap to speak</span>
-     <span>Enter to send</span>
-    </div>
-
-   </div>
+  <section class="hero">
+    <div class="orb">✦</div>
+    <small>PERSONAL AI ASSISTANT</small>
+    <h1 id="heroName">KIRA <span>AI</span></h1>
+    <p>Your assistant. Your conversations. Your browser.</p>
   </section>
 
-  <!-- TOOLS -->
+  <div id="debugError"></div>
 
-  <aside class="tools">
+  <section class="workspace">
 
-   <div class="tool-card">
-    <h3>⌕ WEB SEARCH</h3>
-    <input id="searchInput" placeholder="Search the web...">
-    <button class="btn" id="searchButton">Search</button>
-    <div class="result" id="searchResults">
-     Search results will appear here.
-    </div>
-   </div>
+    <div class="chat-card">
 
-   <div class="tool-card">
-    <h3>∑ CALCULATOR</h3>
-    <input id="calcInput" placeholder="Example: (25 + 5) * 3">
-    <button class="btn" id="calcButton">Calculate</button>
-    <div class="result" id="calcResult">Basic arithmetic only.</div>
-   </div>
+      <div class="chat-heading">
+        <span>◉ ACTIVE CONVERSATION</span>
+        <span class="muted" id="chatStatus">Starting...</span>
+      </div>
 
-   <div class="tool-card">
-    <h3>⌘ QUICK LAUNCH</h3>
-    <p>Open an approved website in a new tab.</p>
+      <div id="chat" aria-live="polite"></div>
 
-    <div class="tool-links">
-     <button class="btn site" data-url="https://www.google.com">Google</button>
-     <button class="btn site" data-url="https://www.youtube.com">YouTube</button>
-     <button class="btn site" data-url="https://github.com">GitHub</button>
-     <button class="btn site" data-url="https://www.wikipedia.org">Wikipedia</button>
-    </div>
-   </div>
+      <div class="input-wrap">
 
-   <!-- MEMORY SNAPSHOT -->
+        <div class="input-row">
+          <button class="btn" id="uploadButton" title="Upload a document">＋</button>
 
-   <div class="memory-card">
+          <input
+            id="userInput"
+            type="text"
+            maxlength="12000"
+            placeholder="Message KIRA..."
+            autocomplete="off"
+          >
 
-    <div class="memory-top">
-     <div class="memory-heading">◈ MEMORY SNAPSHOT</div>
-     <div class="memory-live">● ACTIVE</div>
-    </div>
+          <button class="btn" id="micButton" title="Voice input">🎙</button>
+          <button class="btn primary" id="sendButton">➤</button>
+        </div>
 
-    <div class="memory-core">
-     <div class="memory-avatar">✧</div>
+        <input
+          type="file"
+          id="fileInput"
+          accept=".txt,.md,.csv,.json,.pdf,.docx"
+          hidden
+        >
 
-     <div class="memory-core-info">
-      <small>PERSONAL MEMORY PROFILE</small>
-      <strong id="memoryName">Loading...</strong>
-     </div>
+        <div class="hint">
+          <span id="voiceStatus">Ready</span>
+          <span>Enter to send</span>
+        </div>
+
+      </div>
     </div>
 
-    <div class="memory-grid">
+    <aside class="tools">
 
-     <div class="memory-stat">
-      <small>FAVOURITES</small>
-      <strong id="memoryFavorites">0</strong>
-      <span>Saved interests</span>
-     </div>
+      <div class="tool-card">
+        <h3>⚡ SYSTEM STATUS</h3>
+        <p id="systemDetails">Checking connection...</p>
+        <div class="result" id="storageStatus">Checking browser storage...</div>
+      </div>
 
-     <div class="memory-stat">
-      <small>PREFERENCES</small>
-      <strong id="memoryPreferences">0</strong>
-      <span>Saved preferences</span>
-     </div>
+      <div class="tool-card">
+        <h3>🧮 CALCULATOR</h3>
+        <input id="calcInput" placeholder="Example: (25 + 5) * 2">
+        <button class="btn primary" id="calcButton">Calculate</button>
+        <div class="result" id="calcResult"></div>
+      </div>
 
-     <div class="memory-stat">
-      <small>TOTAL MEMORY</small>
-      <strong id="memoryTotal">0</strong>
-      <span>Stored entries</span>
-     </div>
+      <div class="tool-card">
+        <h3>🌐 WEB SEARCH</h3>
+        <input id="searchInput" placeholder="Search the web...">
+        <button class="btn primary" id="searchButton">Search</button>
+        <div class="result" id="searchResults"></div>
+      </div>
 
-     <div class="memory-stat">
-      <small>MEMORY STATUS</small>
-      <strong style="font-size:13px" id="memoryStatus">READY</strong>
-      <span>Browser storage</span>
-     </div>
+      <div class="tool-card">
+        <h3>🚀 QUICK LAUNCH</h3>
+        <div class="tool-links">
+          <button class="btn site" data-url="https://www.google.com">Google</button>
+          <button class="btn site" data-url="https://www.youtube.com">YouTube</button>
+          <button class="btn site" data-url="https://github.com">GitHub</button>
+          <button class="btn site" data-url="https://www.wikipedia.org">Wikipedia</button>
+        </div>
+      </div>
 
-    </div>
+      <div class="tool-card">
+        <h3>✦ PERSONAL MEMORY</h3>
+        <div class="memory-box" id="memorySnapshot">
+          <div class="memory-empty">Loading memory...</div>
+        </div>
+        <button class="btn memory-manage" id="manageMemoryButton">⚙ Manage memory</button>
+      </div>
 
-    <div class="memory-footer">
-     <span>◈ KIRA MEMORY CORE</span>
-     <span>● PRIVATE</span>
-    </div>
+    </aside>
+  </section>
 
-    <button class="memory-manage" id="manageMemoryButton">
-     ⚙ MANAGE MEMORY
-    </button>
-
-   </div>
-
-  </aside>
- </div>
-
- <div class="quick-actions">
-  <button class="btn quick" data-message="What can you do?">What can you do?</button>
-  <button class="btn quick" data-message="Tell me a joke">Tell me a joke</button>
-  <button class="btn quick" data-message="What time is it?">What's the time?</button>
-  <button class="btn quick" data-message="What do you remember about me?">My memory</button>
- </div>
+  <div class="quick-actions">
+    <button class="btn quick" data-message="What can you do?">What can you do?</button>
+    <button class="btn quick" data-message="Tell me a joke">Tell me a joke</button>
+    <button class="btn quick" data-message="Explain something interesting">Surprise me</button>
+    <button class="btn quick" data-message="What do you remember about me?">My memory</button>
+  </div>
 
 </main>
 </div>
 
-<footer>KIRA AI · CREATED BY ATHARV · PRIVATE BROWSER WORKSPACE</footer>
+<footer>KIRA AI V5 · CREATED BY ATHARV · BROWSER STORAGE EDITION</footer>
 
 
-<!-- SETTINGS MODAL -->
-
+<!-- SETTINGS -->
 <div class="overlay" id="settingsOverlay">
- <section class="dialog">
+<section class="dialog">
 
   <div class="dialog-head">
-   <h2>⚙ KIRA SETTINGS</h2>
-   <button class="btn close" data-close="settingsOverlay">✕</button>
+    <h2>KIRA SETTINGS</h2>
+    <button class="btn close" data-close="settingsOverlay">✕</button>
   </div>
 
   <div class="setting">
-   <label for="themeSelect">Appearance theme</label>
-   <select id="themeSelect">
-    <option value="iron">Iron Core — JARVIS</option>
-    <option value="neon">Neon Cyber</option>
-    <option value="midnight">Midnight Blue</option>
-    <option value="purple">Royal Purple</option>
-    <option value="light">Pure Light</option>
-   </select>
+    <label for="themeSelect">Appearance</label>
+    <select id="themeSelect">
+      <option value="light">Premium Light</option>
+      <option value="dark">Neon Dark</option>
+      <option value="midnight">Midnight Blue</option>
+    </select>
   </div>
 
   <div class="setting">
-   <label for="assistantName">Assistant display name</label>
-   <input id="assistantName" type="text" maxlength="24" value="KIRA">
+    <label for="assistantName">Assistant display name</label>
+    <input id="assistantName" type="text" maxlength="24" value="KIRA">
   </div>
 
   <div class="setting">
-   <label for="voiceLanguage">Voice language</label>
-   <select id="voiceLanguage">
-    <option value="en-IN">English India</option>
-    <option value="hi-IN">Hindi India</option>
-   </select>
-   <p>Voice recognition depends on browser support.</p>
+    <label for="voiceLanguage">Voice language</label>
+    <select id="voiceLanguage">
+      <option value="en-IN">English India</option>
+      <option value="hi-IN">Hindi India</option>
+    </select>
+    <p>Voice recognition depends on browser support and microphone permission.</p>
   </div>
 
   <div class="setting toggle">
-   <label for="speakReplies">Speak replies aloud</label>
-   <input id="speakReplies" type="checkbox">
+    <label for="speakReplies">Speak replies aloud</label>
+    <input id="speakReplies" type="checkbox">
   </div>
 
   <div class="setting toggle">
-   <label for="autoSpeak">Speak after voice input</label>
-   <input id="autoSpeak" type="checkbox">
+    <label for="autoSpeak">Speak after voice input</label>
+    <input id="autoSpeak" type="checkbox">
   </div>
 
-  <div class="dialog-actions">
-   <button class="btn primary" id="saveSettingsButton">Save settings</button>
-   <button class="btn" id="resetSettingsButton">Reset</button>
-  </div>
+  <button class="btn primary" id="saveSettingsButton">Save settings</button>
+  <button class="btn" id="resetSettingsButton">Reset</button>
 
-  <p id="settingsStatus" class="muted" style="margin-top:12px"></p>
-
- </section>
+  <p class="result" id="settingsStatus"></p>
+</section>
 </div>
 
 
-<!-- CHAT HISTORY MODAL -->
-
+<!-- HISTORY -->
 <div class="overlay" id="historyOverlay">
- <section class="dialog">
+<section class="dialog">
 
   <div class="dialog-head">
-   <h2>▤ CHAT HISTORY</h2>
-   <button class="btn close" data-close="historyOverlay">✕</button>
+    <h2>CHAT HISTORY</h2>
+    <button class="btn close" data-close="historyOverlay">✕</button>
   </div>
 
   <input
-   id="historySearch"
-   class="history-search"
-   placeholder="Search your chats..."
+    id="historySearch"
+    placeholder="Filter chats..."
+    style="width:100%;padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);margin-bottom:8px"
   >
 
   <div id="historyList">
-   <p class="empty">Loading chats...</p>
+    <p class="empty">Loading chats...</p>
   </div>
 
-  <div class="privacy-note">
-   🔒 Your chat history is stored in this browser only.
-  </div>
-
- </section>
+</section>
 </div>
 
 
-<!-- PERSONAL MEMORY MODAL -->
-
+<!-- MEMORY -->
 <div class="overlay" id="memoryOverlay">
- <section class="dialog">
+<section class="dialog">
 
   <div class="dialog-head">
-   <h2>◈ PERSONAL MEMORY</h2>
-   <button class="btn close" data-close="memoryOverlay">✕</button>
+    <h2>PERSONAL MEMORY</h2>
+    <button class="btn close" data-close="memoryOverlay">✕</button>
   </div>
 
   <div class="setting">
+    <label for="memoryKind">Memory type</label>
 
-   <label for="memoryKind">Memory type</label>
+    <select id="memoryKind">
+      <option value="preference">Preference / note</option>
+      <option value="favorite">Favourite</option>
+      <option value="name">My name</option>
+    </select>
 
-   <select id="memoryKind">
-    <option value="preference">Preference / note</option>
-    <option value="favorite">Favourite</option>
-    <option value="name">My name</option>
-   </select>
+    <input id="memoryKey" placeholder="Category (for favourite)" style="display:none">
 
-   <input
-    id="memoryKey"
-    type="text"
-    placeholder="Category (for favourite)"
-    style="display:none;margin-top:8px"
-   >
+    <input id="memoryValue" placeholder="What should KIRA remember?">
 
-   <input
-    id="memoryValue"
-    type="text"
-    placeholder="What should KIRA remember?"
-    style="margin-top:8px"
-   >
-
-   <div class="dialog-actions">
     <button class="btn primary" id="saveMemoryButton">Save memory</button>
-    <button class="btn" id="cancelMemoryEditButton" style="display:none">Cancel edit</button>
-   </div>
-
-   <p id="memoryFormStatus" class="muted" style="margin-top:9px"></p>
-
   </div>
 
-  <div id="memoryDetails"></div>
+  <div id="memoryDetails" class="result"></div>
 
-  <button class="btn danger" id="clearMemoryButton" style="width:100%;margin-top:12px">
-   Clear all app memory
-  </button>
+  <button class="btn danger" id="clearMemoryButton">Clear all app memory</button>
 
-  <div class="privacy-note">
-   🔒 Memories are saved in this browser's IndexedDB.
-   They are not stored in the Flask server's chat or memory files.
-  </div>
+  <p class="result">
+    This clears KIRA's local memory only. Your saved chats remain.
+  </p>
 
- </section>
+</section>
 </div>
 
 
 <script>
 'use strict';
 
-/* ==========================================
-   KIRA — BROWSER STORAGE AND APP LOGIC
-========================================== */
+/* =========================================
+   KIRA AI V5 — FRONTEND
+   Browser-only IndexedDB storage
+========================================= */
 
 const $ = id => document.getElementById(id);
-
-const DEFAULTS = {
- theme:'iron',
- assistantName:'KIRA',
- voiceLanguage:'en-IN',
- speakReplies:true,
- autoSpeak:true
-};
-
-const DB_NAME = 'KIRA_AI_PRIVATE';
-const DB_VERSION = 1;
 
 let db = null;
 let currentChatId = null;
@@ -1625,1536 +1103,1839 @@ let currentChat = null;
 let recognition = null;
 let listening = false;
 let documentContext = '';
-let editingMemoryId = null;
-
-
-/* ==========================================
-   INDEXEDDB
-   Each browser profile has its own database.
-========================================== */
-
-function openDatabase() {
- return new Promise((resolve,reject)=>{
-  const request = indexedDB.open(DB_NAME,DB_VERSION);
-
-  request.onupgradeneeded = event=>{
-   const database = event.target.result;
-
-   if(!database.objectStoreNames.contains('chats')){
-    database.createObjectStore('chats',{keyPath:'id'});
-   }
-
-   if(!database.objectStoreNames.contains('memory')){
-    database.createObjectStore('memory',{keyPath:'id'});
-   }
-  };
-
-  request.onsuccess = ()=>{
-   db = request.result;
-
-   db.onversionchange = ()=>{
-    db.close();
-   };
-
-   resolve(db);
-  };
-
-  request.onerror = ()=>{
-   reject(request.error || Error('Could not open browser storage'));
-  };
- });
-}
-
-
-function dbRequest(storeName,mode,action) {
- return new Promise((resolve,reject)=>{
-  if(!db){
-   reject(Error('Browser database is not ready'));
-   return;
-  }
-
-  const transaction = db.transaction(storeName,mode);
-  const store = transaction.objectStore(storeName);
-
-  let request;
-
-  try{
-   request = action(store);
-  }catch(error){
-   reject(error);
-   return;
-  }
-
-  if(request){
-   request.onsuccess = ()=>resolve(request.result);
-   request.onerror = ()=>reject(request.error);
-  }else{
-   transaction.oncomplete = ()=>resolve(true);
-  }
-
-  transaction.onerror = ()=>reject(transaction.error);
- });
-}
-
-
-async function saveChat(chat) {
- await dbRequest('chats','readwrite',store=>store.put(chat));
-}
-
-
-async function getChat(id) {
- return dbRequest('chats','readonly',store=>store.get(id));
-}
-
-
-async function getAllChats() {
- const chats = await dbRequest(
-  'chats',
-  'readonly',
-  store=>store.getAll()
- );
-
- return (chats || []).sort(
-  (a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt)
- );
-}
-
-
-async function deleteChat(id) {
- await dbRequest('chats','readwrite',store=>store.delete(id));
-}
-
-
-async function getMemory() {
- const data = await dbRequest(
-  'memory',
-  'readonly',
-  store=>store.get('profile')
- );
-
- return data || {
-  id:'profile',
-  name:null,
-  preferences:[],
-  favorites:{},
-  notes:[]
- };
-}
-
-
-async function saveMemoryData(memory) {
- memory.id = 'profile';
-
- await dbRequest(
-  'memory',
-  'readwrite',
-  store=>store.put(memory)
- );
-}
-
-
-/* ==========================================
-   SETTINGS
-========================================== */
-
-function settings() {
- try{
-  return {
-   ...DEFAULTS,
-   ...JSON.parse(localStorage.getItem('kiraSettingsV5') || '{}')
-  };
- }catch{
-  return {...DEFAULTS};
- }
-}
-
-
-function applySettings() {
- const s = settings();
-
- document.body.classList.remove(
-  'iron','neon','midnight','purple','light'
- );
-
- if(s.theme !== 'iron'){
-  document.body.classList.add(s.theme);
- }
-
- $('heroName').textContent = s.assistantName;
- $('userInput').placeholder = 'Message ' + s.assistantName + '...';
-
- document.title = s.assistantName + ' AI';
-
- if(recognition){
-  recognition.lang = s.voiceLanguage;
- }
-}
-
-
-/* ==========================================
-   ERROR HANDLING
-========================================== */
-
-function reportError(message) {
- $('debugError').textContent = 'KIRA: ' + message;
- $('debugError').classList.add('show');
- console.error(message);
-}
-
-window.addEventListener('error',event=>{
- reportError(event.message || 'Unknown interface error');
-});
-
-window.addEventListener('unhandledrejection',event=>{
- reportError(String(event.reason || 'Unexpected error'));
-});
-
-
-/* ==========================================
-   MODALS
-========================================== */
-
-function openOverlay(id) {
- $(id).classList.add('open');
-}
-
-function closeOverlay(id) {
- $(id).classList.remove('open');
-}
-
-document.querySelectorAll('[data-close]').forEach(button=>{
- button.onclick = ()=>closeOverlay(button.dataset.close);
-});
-
-document.querySelectorAll('.overlay').forEach(overlay=>{
- overlay.addEventListener('click',event=>{
-  if(event.target === overlay){
-   overlay.classList.remove('open');
-  }
- });
-});
-
-document.addEventListener('keydown',event=>{
- if(event.key === 'Escape'){
-  document.querySelectorAll('.overlay').forEach(overlay=>{
-   overlay.classList.remove('open');
-  });
- }
-});
-
-
-/* ==========================================
-   CHAT DISPLAY
-========================================== */
-
-function addMessage(role,text) {
- const box = document.createElement('div');
-
- box.className = 'message ' + (
-  role === 'user' ? 'user' : 'kira'
- );
-
- const name = document.createElement('span');
- name.className = 'message-name';
-
- name.textContent = role === 'user'
-  ? 'YOU'
-  : settings().assistantName;
-
- const body = document.createElement('span');
- body.textContent = String(text ?? '');
-
- box.append(name,body);
-
- $('chat').append(box);
- $('chat').scrollTop = $('chat').scrollHeight;
-
- return box;
-}
-
-
-function welcome() {
- $('chat').replaceChildren();
-
- addMessage(
-  'assistant',
-  'Hello! I\'m ' + settings().assistantName +
-  '. Ready for a new mission?'
- );
-}
-
-
-function renderChat(chat) {
- $('chat').replaceChildren();
-
- if(!chat.messages || !chat.messages.length){
-  welcome();
-  return;
- }
-
- chat.messages.forEach(message=>{
-  addMessage(message.role,message.content);
- });
-
- $('chat').scrollTop = $('chat').scrollHeight;
-}
-
-
-/* ==========================================
-   NEW CHAT
-   Generated and stored in this browser.
-========================================== */
-
-async function newChat() {
- try{
-  currentChatId = crypto.randomUUID();
-
-  currentChat = {
-   id:currentChatId,
-   title:'New Chat',
-   createdAt:new Date().toISOString(),
-   updatedAt:new Date().toISOString(),
-   messages:[]
-  };
-
-  await saveChat(currentChat);
-
-  welcome();
-
-  $('chatStatus').textContent = 'New conversation';
-  $('debugError').classList.remove('show');
-
-  document.querySelectorAll('.side-btn').forEach(button=>{
-   button.classList.remove('active');
-  });
-
-  $('newChatButton').classList.add('active');
-
- }catch(error){
-  reportError('Could not create chat: ' + error.message);
- }
-}
-
-
-/* ==========================================
-   MEMORY COMMANDS
-   These commands are handled locally.
-========================================== */
-
-async function handleMemoryCommand(message) {
- const text = message.trim();
- const lower = text.toLowerCase();
-
- let memory = await getMemory();
-
- // Save name
- if(lower.startsWith('my name is ')){
-  const name = text.slice(11).trim();
-
-  if(name){
-   memory.name = name;
-   await saveMemoryData(memory);
-   await loadMemory();
-
-   return 'Saved. I will remember your name is ' + name + '.';
-  }
- }
-
- // Save favourite
- for(const prefix of ['my favourite ','my favorite ']){
-  if(lower.startsWith(prefix) && lower.includes(' is ')){
-   const rest = text.slice(prefix.length);
-   const splitAt = rest.toLowerCase().indexOf(' is ');
-
-   const category = rest.slice(0,splitAt).trim();
-   const value = rest.slice(splitAt+4).trim();
-
-   if(category && value){
-    memory.favorites[category] = value;
-    await saveMemoryData(memory);
-    await loadMemory();
-
-    return 'I will remember your favourite ' + category + ' is ' + value + '.';
-   }
-  }
- }
-
- // Save a note
- if(lower.startsWith('remember that ')){
-  const note = text.slice(14).trim();
-
-  if(note){
-   if(!memory.preferences.includes(note)){
-    memory.preferences.push(note);
-   }
-
-   await saveMemoryData(memory);
-   await loadMemory();
-
-   return 'Saved to your personal memory.';
-  }
- }
-
- // Forget name
- if(lower.startsWith('forget my name')){
-  memory.name = null;
-  await saveMemoryData(memory);
-  await loadMemory();
-
-  return 'Your saved name has been cleared.';
- }
-
- // Clear memory
- if(
-  lower.startsWith('forget all my memories') ||
-  lower.startsWith('clear my memory')
- ){
-  await saveMemoryData({
-   id:'profile',
-   name:null,
-   preferences:[],
-   favorites:{},
-   notes:[]
-  });
-
-  await loadMemory();
-
-  return 'Your personal KIRA memory has been cleared.';
- }
-
- // Forget favourite
- if(
-  lower.startsWith('forget my favourite ') ||
-  lower.startsWith('forget my favorite ')
- ){
-  const category = text.replace(
-   /^forget my favou?rite\s+/i,
-   ''
-  ).trim().toLowerCase();
-
-  const key = Object.keys(memory.favorites).find(
-   item=>item.toLowerCase() === category
-  );
-
-  if(key){
-   delete memory.favorites[key];
-   await saveMemoryData(memory);
-   await loadMemory();
-
-   return 'Cleared your saved ' + category + ' favourite.';
-  }
-
-  return 'I could not find that saved favourite.';
- }
-
- // Recall name
- if(
-  lower.includes('what is my name') ||
-  lower.includes('do you know my name')
- ){
-  return memory.name
-   ? 'Your name is ' + memory.name + '.'
-   : 'You have not saved your name yet.';
- }
-
- // Show memory
- if(
-  lower.includes('what do you remember about me') ||
-  lower.includes('show my memory')
- ){
-  return JSON.stringify(memory,null,2);
- }
-
- // Recall favourite
- if(
-  lower.includes('what is my favourite') ||
-  lower.includes('what is my favorite')
- ){
-  const match = Object.entries(memory.favorites).find(
-   ([category])=>lower.includes(category.toLowerCase())
-  );
-
-  if(match){
-   return 'Your favourite ' + match[0] + ' is ' + match[1] + '.';
-  }
-
-  const entries = Object.entries(memory.favorites);
-
-  if(entries.length){
-   return entries.map(
-    ([key,value])=>'Your favourite '+key+' is '+value+'.'
-   ).join('\n');
-  }
-
-  return 'No favourites are saved yet.';
- }
-
- return null;
-}
-
-
-/* ==========================================
-   SEND MESSAGE
-========================================== */
-
-async function sendMessage() {
- const text = $('userInput').value.trim();
-
- if(!text || $('sendButton').disabled){
-  return;
- }
-
- if(!currentChat){
-  await newChat();
-
-  if(!currentChat){
-   return;
-  }
- }
-
- $('userInput').value = '';
-
- addMessage('user',text);
-
- currentChat.messages.push({
-  role:'user',
-  content:text
- });
-
- if(currentChat.messages.length === 1){
-  currentChat.title = text.slice(0,45);
- }
-
- currentChat.updatedAt = new Date().toISOString();
-
- $('sendButton').disabled = true;
- $('chatStatus').textContent = 'Processing...';
-
- const loading = addMessage('assistant','KIRA is thinking...');
- loading.querySelector('span:last-child').className = 'thinking';
-
- try{
-  // Memory commands are handled by this browser.
-  const localReply = await handleMemoryCommand(text);
-
-  if(localReply !== null){
-   loading.remove();
-
-   addMessage('assistant',localReply);
-
-   currentChat.messages.push({
-    role:'assistant',
-    content:localReply
-   });
-
-   currentChat.updatedAt = new Date().toISOString();
-
-   await saveChat(currentChat);
-
-   return;
-  }
-
-  const memory = await getMemory();
-
-  const memoryContext = JSON.stringify({
-   name:memory.name,
-   preferences:memory.preferences,
-   favorites:memory.favorites,
-   notes:memory.notes
-  });
-
-  const controller = new AbortController();
-
-  const timer = setTimeout(()=>controller.abort(),60000);
-
-  let response;
-
-  try{
-   response = await fetch('/chat',{
-    method:'POST',
-    headers:{
-     'Content-Type':'application/json'
-    },
-    body:JSON.stringify({
-     message:text,
-     messages:currentChat.messages.slice(-12),
-     memory_context:memoryContext,
-     tool_context:documentContext
-    }),
-    signal:controller.signal
-   });
-  }finally{
-   clearTimeout(timer);
-  }
-
-  const data = await response.json();
-
-  if(!response.ok){
-   throw Error(data.error || 'Server error ' + response.status);
-  }
-
-  const reply = data.reply || 'No response received.';
-
-  loading.remove();
-  addMessage('assistant',reply);
-
-  currentChat.messages.push({
-   role:'assistant',
-   content:reply
-  });
-
-  currentChat.updatedAt = new Date().toISOString();
-
-  // Chat is saved ONLY in this browser.
-  await saveChat(currentChat);
-
-  // The document is attached only to the next message.
-  documentContext = '';
-
-  if(
-   settings().speakReplies &&
-   settings().autoSpeak &&
-   window.speechSynthesis
-  ){
-   speakText(reply);
-  }
-
- }catch(error){
-  loading.remove();
-
-  const errorMessage = error.name === 'AbortError'
-   ? 'Request timed out. Check your connection and try again.'
-   : 'Request failed: ' + error.message;
-
-  addMessage('assistant',errorMessage);
-
-  currentChat.messages.push({
-   role:'assistant',
-   content:errorMessage
-  });
-
-  currentChat.updatedAt = new Date().toISOString();
-
-  await saveChat(currentChat);
-
- }finally{
-  $('sendButton').disabled = false;
-  $('chatStatus').textContent = 'Ready';
-  $('userInput').focus();
- }
-}
-
-
-/* ==========================================
-   CHAT HISTORY
-========================================== */
-
-async function loadHistory() {
- const list = $('historyList');
-
- list.replaceChildren();
-
- try{
-  const chats = await getAllChats();
-
-  if(!chats.length){
-   list.innerHTML = '<p class="empty">No saved chats yet.</p>';
-   return;
-  }
-
-  chats.forEach(chat=>{
-   const row = document.createElement('div');
-   row.className = 'history-entry';
-
-   const info = document.createElement('div');
-   info.className = 'history-title';
-
-   const title = document.createElement('strong');
-   title.textContent = chat.title || 'New Chat';
-
-   const date = document.createElement('small');
-   date.textContent = chat.updatedAt
-    ? new Date(chat.updatedAt).toLocaleString()
-    : '';
-
-   info.append(title,date);
-
-   const actions = document.createElement('div');
-   actions.style.display = 'flex';
-   actions.style.gap = '5px';
-
-   const open = document.createElement('button');
-   open.className = 'btn';
-   open.textContent = 'Open';
-   open.style.fontSize = '9px';
-
-   open.onclick = ()=>openSavedChat(chat.id);
-
-   const remove = document.createElement('button');
-   remove.className = 'history-delete';
-   remove.textContent = '✕';
-   remove.title = 'Delete chat';
-
-   remove.onclick = async event=>{
-    event.stopPropagation();
-
-    if(!confirm('Delete this chat from this browser?')){
-     return;
-    }
-
-    await deleteChat(chat.id);
-
-    if(currentChatId === chat.id){
-     await newChat();
-    }
-
-    await loadHistory();
-   };
-
-   actions.append(open,remove);
-   row.append(info,actions);
-   list.append(row);
-  });
-
- }catch(error){
-  list.textContent = 'Could not load chat history: ' + error.message;
- }
-}
-
-
-async function openSavedChat(id) {
- try{
-  const chat = await getChat(id);
-
-  if(!chat){
-   throw Error('Chat not found in this browser.');
-  }
-
-  currentChat = chat;
-  currentChatId = chat.id;
-
-  renderChat(chat);
-
-  $('chatStatus').textContent = 'Saved conversation';
-
-  closeOverlay('historyOverlay');
-
- }catch(error){
-  reportError(error.message);
- }
-}
-
-
-$('historySearch').oninput = async ()=>{
- const query = $('historySearch').value.toLowerCase();
- const chats = await getAllChats();
-
- $('historyList').replaceChildren();
-
- const filtered = chats.filter(chat=>
-  (chat.title || '').toLowerCase().includes(query)
- );
-
- if(!filtered.length){
-  $('historyList').innerHTML = '<p class="empty">No matching chats.</p>';
-  return;
- }
-
- filtered.forEach(chat=>{
-  const row = document.createElement('div');
-  row.className = 'history-entry';
-
-  const title = document.createElement('div');
-  title.className = 'history-title';
-
-  const strong = document.createElement('strong');
-  strong.textContent = chat.title || 'New Chat';
-
-  const small = document.createElement('small');
-  small.textContent = new Date(chat.updatedAt).toLocaleString();
-
-  title.append(strong,small);
-
-  const button = document.createElement('button');
-  button.className = 'btn';
-  button.textContent = 'Open';
-
-  button.onclick = ()=>openSavedChat(chat.id);
-
-  row.append(title,button);
-  $('historyList').append(row);
- });
+let isSending = false;
+
+const DB_NAME = 'KIRA_AI_V5';
+const DB_VERSION = 1;
+
+const DEFAULTS = {
+  theme: 'light',
+  assistantName: 'KIRA',
+  voiceLanguage: 'en-IN',
+  speakReplies: true,
+  autoSpeak: true
 };
 
 
-/* ==========================================
-   MEMORY SNAPSHOT
-========================================== */
+/* =========================================
+   ERROR DISPLAY
+========================================= */
 
-async function loadMemory() {
- try{
-  const memory = await getMemory();
-
-  const favourites = memory.favorites || {};
-  const preferences = memory.preferences || [];
-  const notes = memory.notes || [];
-
-  const favouriteCount = Object.keys(favourites).length;
-  const preferenceCount = preferences.length;
-
-  const total =
-   favouriteCount +
-   preferenceCount +
-   notes.length +
-   (memory.name ? 1 : 0);
-
-  $('memoryName').textContent = memory.name || 'Unknown User';
-  $('memoryFavorites').textContent = favouriteCount;
-  $('memoryPreferences').textContent = preferenceCount;
-  $('memoryTotal').textContent = total;
-  $('memoryStatus').textContent = 'READY';
-
-  renderMemoryDetails(memory);
-
- }catch(error){
-  $('memoryName').textContent = 'Unavailable';
-  $('memoryStatus').textContent = 'ERROR';
-  $('memoryDetails').textContent = error.message;
- }
+function reportError(message) {
+  $('debugError').textContent = 'KIRA interface error: ' + message;
+  $('debugError').classList.add('show');
+  console.error(message);
 }
 
+window.addEventListener('error', event => {
+  reportError(event.message || 'Unknown JavaScript error');
+});
 
-function renderMemoryDetails(memory) {
- const container = $('memoryDetails');
- container.replaceChildren();
+window.addEventListener('unhandledrejection', event => {
+  reportError(String(event.reason || 'Unknown async error'));
+});
 
- const entries = [];
 
- if(memory.name){
-  entries.push({
-   id:'name',
-   type:'name',
-   value:memory.name
-  });
- }
+/* =========================================
+   SETTINGS — LOCAL STORAGE
+========================================= */
 
- Object.entries(memory.favorites || {}).forEach(([key,value])=>{
-  entries.push({
-   id:'favorite:' + key,
-   type:'Favourite · ' + key,
-   value
-  });
- });
-
- (memory.preferences || []).forEach((value,index)=>{
-  entries.push({
-   id:'preference:' + index,
-   type:'Preference / note',
-   value
-  });
- });
-
- (memory.notes || []).forEach((value,index)=>{
-  entries.push({
-   id:'note:' + index,
-   type:'Note',
-   value
-  });
- });
-
- if(!entries.length){
-  const empty = document.createElement('p');
-  empty.className = 'empty';
-  empty.textContent = 'No memories saved yet. Add your first memory above.';
-  container.append(empty);
-  return;
- }
-
- entries.forEach(entry=>{
-  const card = document.createElement('div');
-  card.className = 'memory-item';
-
-  const top = document.createElement('div');
-  top.className = 'memory-item-top';
-
-  const type = document.createElement('span');
-  type.className = 'memory-type';
-  type.textContent = entry.type;
-
-  top.append(type);
-
-  const value = document.createElement('div');
-  value.className = 'memory-value';
-  value.textContent = entry.value;
-
-  const actions = document.createElement('div');
-  actions.className = 'memory-item-actions';
-
-  const edit = document.createElement('button');
-  edit.className = 'btn';
-  edit.textContent = 'Edit';
-
-  edit.onclick = ()=>editMemory(entry);
-
-  const remove = document.createElement('button');
-  remove.className = 'btn danger';
-  remove.textContent = 'Delete';
-
-  remove.onclick = ()=>deleteMemoryEntry(entry);
-
-  actions.append(edit,remove);
-  card.append(top,value,actions);
-  container.append(card);
- });
+function settings() {
+  try {
+    return {
+      ...DEFAULTS,
+      ...JSON.parse(localStorage.getItem('kiraSettingsV5') || '{}')
+    };
+  } catch {
+    return {...DEFAULTS};
+  }
 }
 
-
-/* ==========================================
-   MEMORY SAVE / EDIT / DELETE
-========================================== */
-
-function resetMemoryForm() {
- editingMemoryId = null;
-
- $('memoryKind').value = 'preference';
- $('memoryKey').value = '';
- $('memoryValue').value = '';
-
- $('memoryKey').style.display = 'none';
-
- $('memoryValue').placeholder = 'What should KIRA remember?';
-
- $('saveMemoryButton').textContent = 'Save memory';
- $('cancelMemoryEditButton').style.display = 'none';
-
- $('memoryFormStatus').textContent = '';
+function saveSettingsData(data) {
+  localStorage.setItem('kiraSettingsV5', JSON.stringify(data));
 }
 
+function applySettings() {
+  const s = settings();
 
-function editMemory(entry) {
- editingMemoryId = entry.id;
+  document.body.classList.remove('dark', 'midnight');
 
- if(entry.type === 'name'){
-  $('memoryKind').value = 'name';
-  $('memoryKey').value = '';
-  $('memoryKey').style.display = 'none';
-
- }else if(entry.id.startsWith('favorite:')){
-  $('memoryKind').value = 'favorite';
-  $('memoryKey').value = entry.id.slice(9);
-  $('memoryKey').style.display = 'block';
-
- }else{
-  $('memoryKind').value = 'preference';
-  $('memoryKey').style.display = 'none';
- }
-
- $('memoryValue').value = entry.value;
- $('saveMemoryButton').textContent = 'Update memory';
- $('cancelMemoryEditButton').style.display = 'inline-block';
-
- $('memoryFormStatus').textContent = 'Editing saved memory.';
-
- $('memoryValue').focus();
-}
-
-
-async function deleteMemoryEntry(entry) {
- if(!confirm('Delete this memory?')){
-  return;
- }
-
- const memory = await getMemory();
-
- if(entry.type === 'name'){
-  memory.name = null;
-
- }else if(entry.id.startsWith('favorite:')){
-  const key = entry.id.slice(9);
-  delete memory.favorites[key];
-
- }else if(entry.id.startsWith('preference:')){
-  const index = Number(entry.id.split(':')[1]);
-  memory.preferences.splice(index,1);
-
- }else if(entry.id.startsWith('note:')){
-  const index = Number(entry.id.split(':')[1]);
-  memory.notes.splice(index,1);
- }
-
- await saveMemoryData(memory);
- await loadMemory();
-}
-
-
-async function saveMemory() {
- const kind = $('memoryKind').value;
- const key = $('memoryKey').value.trim();
- const value = $('memoryValue').value.trim();
-
- if(!value){
-  $('memoryValue').focus();
-  return;
- }
-
- if(kind === 'favorite' && !key){
-  $('memoryKey').focus();
-  $('memoryFormStatus').textContent = 'Enter a favourite category.';
-  return;
- }
-
- try{
-  const memory = await getMemory();
-
-  // Editing an existing entry
-  if(editingMemoryId){
-   const oldId = editingMemoryId;
-
-   if(oldId === 'name'){
-    memory.name = null;
-
-   }else if(oldId.startsWith('favorite:')){
-    delete memory.favorites[oldId.slice(9)];
-
-   }else if(oldId.startsWith('preference:')){
-    const index = Number(oldId.split(':')[1]);
-    memory.preferences.splice(index,1);
-
-   }else if(oldId.startsWith('note:')){
-    const index = Number(oldId.split(':')[1]);
-    memory.notes.splice(index,1);
-   }
+  if (s.theme === 'dark') {
+    document.body.classList.add('dark');
   }
 
-  if(kind === 'name'){
-   memory.name = value;
+  if (s.theme === 'midnight') {
+    document.body.classList.add('midnight');
+  }
 
-  }else if(kind === 'favorite'){
-   memory.favorites[key] = value;
+  $('heroName').textContent = s.assistantName;
+  $('userInput').placeholder = 'Message ' + s.assistantName + '...';
+  document.title = s.assistantName + ' AI';
 
-  }else if(kind === 'preference'){
-   if(!memory.preferences.includes(value)){
-    memory.preferences.push(value);
-   }
+  if (recognition) {
+    recognition.lang = s.voiceLanguage;
+  }
+}
+
+
+/* =========================================
+   INDEXEDDB
+========================================= */
+
+function openDatabase() {
+  return new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) {
+      reject(new Error('This browser does not support IndexedDB.'));
+      return;
+    }
+
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onupgradeneeded = event => {
+      const database = event.target.result;
+
+      if (!database.objectStoreNames.contains('chats')) {
+        const chats = database.createObjectStore('chats', {
+          keyPath: 'id'
+        });
+
+        chats.createIndex('updatedAt', 'updatedAt', {
+          unique: false
+        });
+      }
+
+      if (!database.objectStoreNames.contains('memory')) {
+        database.createObjectStore('memory', {
+          keyPath: 'id'
+        });
+      }
+    };
+
+    request.onsuccess = () => {
+      db = request.result;
+
+      db.onversionchange = () => {
+        db.close();
+        db = null;
+      };
+
+      resolve(db);
+    };
+
+    request.onerror = () => {
+      reject(request.error || new Error('Could not open local database.'));
+    };
+  });
+}
+
+function dbRequest(storeName, mode, operation) {
+  return new Promise((resolve, reject) => {
+    if (!db) {
+      reject(new Error('Local database is not ready.'));
+      return;
+    }
+
+    const transaction = db.transaction(storeName, mode);
+    const store = transaction.objectStore(storeName);
+
+    let request;
+
+    try {
+      request = operation(store);
+    } catch (error) {
+      reject(error);
+      return;
+    }
+
+    request.onsuccess = () => resolve(request.result);
+
+    request.onerror = () => {
+      reject(request.error || new Error('Database request failed.'));
+    };
+
+    transaction.onabort = () => {
+      reject(transaction.error || new Error('Database transaction failed.'));
+    };
+  });
+}
+
+function saveChat(chat) {
+  chat.updatedAt = new Date().toISOString();
+
+  return dbRequest('chats', 'readwrite', store => {
+    return store.put(chat);
+  });
+}
+
+function getChat(id) {
+  return dbRequest('chats', 'readonly', store => {
+    return store.get(id);
+  });
+}
+
+function getAllChats() {
+  return dbRequest('chats', 'readonly', store => {
+    return store.getAll();
+  });
+}
+
+function deleteChat(id) {
+  return dbRequest('chats', 'readwrite', store => {
+    return store.delete(id);
+  });
+}
+
+function getMemoryData() {
+  return dbRequest('memory', 'readonly', store => {
+    return store.get('profile');
+  }).then(data => data || {
+    id: 'profile',
+    name: '',
+    preferences: [],
+    favorites: {},
+    notes: []
+  });
+}
+
+function saveMemoryData(memory) {
+  memory.id = 'profile';
+
+  return dbRequest('memory', 'readwrite', store => {
+    return store.put(memory);
+  });
+}
+
+
+/* =========================================
+   CHAT CREATION
+========================================= */
+
+function makeId() {
+  if (window.crypto && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2);
+}
+
+function welcome() {
+  $('chat').replaceChildren();
+
+  addMessage(
+    'assistant',
+    'Hello! I am ' + settings().assistantName +
+    '. Ready for a new mission?'
+  );
+}
+
+async function newChat() {
+  try {
+    currentChat = {
+      id: makeId(),
+      title: 'New Chat',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      messages: []
+    };
+
+    currentChatId = currentChat.id;
+
+    await saveChat(currentChat);
+
+    welcome();
+
+    $('chatStatus').textContent = 'Ready';
+    $('userInput').focus();
+
+  } catch (error) {
+    reportError('Could not create chat: ' + error.message);
+  }
+}
+
+
+/* =========================================
+   SAFE MARKDOWN RENDERER
+========================================= */
+
+function escapeHTML(text) {
+  return String(text).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+function safeURL(url) {
+  try {
+    const parsed = new URL(url, window.location.href);
+
+    if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+      return parsed.href;
+    }
+  } catch {}
+
+  return '';
+}
+
+function inlineMarkdown(text) {
+  let html = escapeHTML(text);
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+  // Italic
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+  // Strikethrough
+  html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+  // Links
+  html = html.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    (match, label, url) => {
+      const safe = safeURL(url);
+
+      return safe
+        ? '<a href="' + safe + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
+        : label;
+    }
+  );
+
+  return html;
+}
+
+function renderMarkdown(text) {
+  const source = String(text || '').replace(/\r\n/g, '\n');
+  const lines = source.split('\n');
+
+  let output = [];
+  let paragraph = [];
+  let listType = null;
+  let inCode = false;
+  let codeLines = [];
+
+  function flushParagraph() {
+    if (paragraph.length) {
+      output.push('<p>' + inlineMarkdown(paragraph.join(' ')) + '</p>');
+      paragraph = [];
+    }
+  }
+
+  function closeList() {
+    if (listType) {
+      output.push('</' + listType + '>');
+      listType = null;
+    }
+  }
+
+  function closeCode() {
+    output.push(
+      '<pre><code>' +
+      escapeHTML(codeLines.join('\n')) +
+      '</code></pre>'
+    );
+
+    codeLines = [];
+    inCode = false;
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```')) {
+      flushParagraph();
+      closeList();
+
+      if (inCode) {
+        closeCode();
+      } else {
+        inCode = true;
+        codeLines = [];
+      }
+
+      continue;
+    }
+
+    if (inCode) {
+      codeLines.push(line);
+      continue;
+    }
+
+    if (!trimmed) {
+      flushParagraph();
+      closeList();
+      continue;
+    }
+
+    if (/^---+$/.test(trimmed)) {
+      flushParagraph();
+      closeList();
+      output.push('<hr>');
+      continue;
+    }
+
+    const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
+
+    if (heading) {
+      flushParagraph();
+      closeList();
+
+      const level = heading[1].length;
+
+      output.push(
+        '<h' + level + '>' +
+        inlineMarkdown(heading[2]) +
+        '</h' + level + '>'
+      );
+
+      continue;
+    }
+
+    if (trimmed.startsWith('> ')) {
+      flushParagraph();
+      closeList();
+
+      output.push(
+        '<blockquote>' +
+        inlineMarkdown(trimmed.slice(2)) +
+        '</blockquote>'
+      );
+
+      continue;
+    }
+
+    const unordered = trimmed.match(/^[-*+]\s+(.+)$/);
+    const ordered = trimmed.match(/^\d+[.)]\s+(.+)$/);
+
+    if (unordered || ordered) {
+      flushParagraph();
+
+      const type = unordered ? 'ul' : 'ol';
+
+      if (listType !== type) {
+        closeList();
+        output.push('<' + type + '>');
+        listType = type;
+      }
+
+      output.push(
+        '<li>' +
+        inlineMarkdown((unordered || ordered)[1]) +
+        '</li>'
+      );
+
+      continue;
+    }
+
+    closeList();
+    paragraph.push(trimmed);
+  }
+
+  flushParagraph();
+  closeList();
+
+  if (inCode) {
+    closeCode();
+  }
+
+  return output.join('');
+}
+
+
+/* =========================================
+   MESSAGE DISPLAY
+========================================= */
+
+function addMessage(role, text, options = {}) {
+  const box = document.createElement('div');
+
+  box.className = 'message ' +
+    (role === 'user' ? 'user' : 'kira');
+
+  const name = document.createElement('span');
+  name.className = 'message-name';
+  name.textContent = role === 'user'
+    ? 'YOU'
+    : settings().assistantName;
+
+  const body = document.createElement('div');
+  body.className = 'message-body';
+
+  if (options.thinking) {
+    body.className += ' thinking';
+    body.textContent = String(text);
+  } else if (role === 'assistant') {
+    body.innerHTML = renderMarkdown(text);
+  } else {
+    body.textContent = String(text);
+  }
+
+  box.append(name, body);
+  $('chat').append(box);
+  $('chat').scrollTop = $('chat').scrollHeight;
+
+  return box;
+}
+
+
+/* =========================================
+   MEMORY COMMANDS
+========================================= */
+
+async function handleMemoryCommand(message) {
+  const text = message.trim();
+  const lower = text.toLowerCase();
+
+  let memory = await getMemoryData();
+
+  // Save name
+  let nameMatch = text.match(/^my name is\s+(.+)$/i);
+
+  if (nameMatch) {
+    memory.name = nameMatch[1].trim();
+
+    await saveMemoryData(memory);
+
+    return "Saved! I'll remember your name is " + memory.name + ".";
+  }
+
+  // Save favourite
+  let favoriteMatch = text.match(
+    /^my favou?rite\s+(.+?)\s+is\s+(.+)$/i
+  );
+
+  if (favoriteMatch) {
+    const category = favoriteMatch[1].trim();
+    const value = favoriteMatch[2].trim();
+
+    memory.favorites[category] = value;
+
+    await saveMemoryData(memory);
+
+    return "I'll remember your favourite " + category + " is " + value + ".";
+  }
+
+  // Save a note or preference
+  let rememberMatch = text.match(
+    /^(?:kira,?\s+)?remember that\s+(.+)$/i
+  );
+
+  if (rememberMatch) {
+    const note = rememberMatch[1].trim();
+
+    if (note && !memory.preferences.includes(note)) {
+      memory.preferences.push(note);
+    }
+
+    await saveMemoryData(memory);
+
+    return "Saved to your personal memory.";
+  }
+
+  // Forget name
+  if (/^(?:kira,?\s+)?forget my name$/i.test(text)) {
+    memory.name = '';
+
+    await saveMemoryData(memory);
+
+    return "Your saved name has been cleared.";
+  }
+
+  // Forget all memory
+  if (
+    /^(?:kira,?\s+)?(?:forget all my memories|clear my memory|clear all memory)$/i.test(text)
+  ) {
+    memory = {
+      id: 'profile',
+      name: '',
+      preferences: [],
+      favorites: {},
+      notes: []
+    };
+
+    await saveMemoryData(memory);
+
+    return "Your KIRA browser memory has been cleared. Your chat history remains.";
+  }
+
+  // Forget favourite
+  let forgetFavorite = text.match(
+    /^forget my favou?rite\s+(.+)$/i
+  );
+
+  if (forgetFavorite) {
+    const category = forgetFavorite[1].trim().toLowerCase();
+
+    const key = Object.keys(memory.favorites).find(
+      item => item.toLowerCase() === category
+    );
+
+    if (key) {
+      delete memory.favorites[key];
+      await saveMemoryData(memory);
+
+      return "Cleared your saved favourite " + key + ".";
+    }
+
+    return "I couldn't find that saved favourite.";
+  }
+
+  // Recall name
+  if (
+    lower.includes('what is my name') ||
+    lower.includes('what\'s my name') ||
+    lower.includes('do you know my name')
+  ) {
+    return memory.name
+      ? "Your name is " + memory.name + "."
+      : "You haven't saved your name yet.";
+  }
+
+  // Recall all memory
+  if (
+    lower.includes('what do you remember about me') ||
+    lower.includes('show my memory') ||
+    lower.includes('show my memories')
+  ) {
+    const summary = [];
+
+    if (memory.name) {
+      summary.push('Name: ' + memory.name);
+    }
+
+    Object.entries(memory.favorites).forEach(([key, value]) => {
+      summary.push('Favourite ' + key + ': ' + value);
+    });
+
+    memory.preferences.forEach(value => {
+      summary.push('Preference: ' + value);
+    });
+
+    memory.notes.forEach(value => {
+      summary.push('Note: ' + value);
+    });
+
+    return summary.length
+      ? 'Here is what I remember:\n\n' + summary.map(x => '- ' + x).join('\n')
+      : "Your personal memory is currently empty.";
+  }
+
+  // Recall favourite
+  if (
+    lower.includes('what is my favourite') ||
+    lower.includes('what is my favorite') ||
+    lower.includes('what\'s my favourite') ||
+    lower.includes('what\'s my favorite')
+  ) {
+    const found = Object.entries(memory.favorites).filter(
+      ([key]) => lower.includes(key.toLowerCase())
+    );
+
+    if (found.length) {
+      return found.map(([key, value]) =>
+        'Your favourite ' + key + ' is ' + value + '.'
+      ).join('\n');
+    }
+
+    const all = Object.entries(memory.favorites);
+
+    return all.length
+      ? all.map(([key, value]) =>
+          'Your favourite ' + key + ' is ' + value + '.'
+        ).join('\n')
+      : "You haven't saved any favourites yet.";
+  }
+
+  return null;
+}
+
+
+/* =========================================
+   MEMORY CONTEXT FOR GROQ
+========================================= */
+
+async function buildMemoryContext() {
+  const memory = await getMemoryData();
+
+  return JSON.stringify({
+    name: memory.name,
+    preferences: memory.preferences,
+    favorites: memory.favorites,
+    notes: memory.notes
+  });
+}
+
+
+/* =========================================
+   SEND MESSAGE
+========================================= */
+
+async function sendMessage() {
+  const text = $('userInput').value.trim();
+
+  if (!text || isSending) return;
+
+  if (!db) {
+    reportError('Local storage is not ready.');
+    return;
+  }
+
+  if (!currentChat) {
+    await newChat();
+  }
+
+  isSending = true;
+  $('sendButton').disabled = true;
+
+  $('userInput').value = '';
+
+  addMessage('user', text);
+
+  currentChat.messages.push({
+    role: 'user',
+    content: text
+  });
+
+  if (currentChat.messages.length === 1) {
+    currentChat.title = text.slice(0, 45);
+  }
+
+  await saveChat(currentChat);
+
+  $('chatStatus').textContent = 'Thinking...';
+
+  const loading = addMessage(
+    'assistant',
+    'KIRA is thinking...',
+    {thinking:true}
+  );
+
+  try {
+    const memoryReply = await handleMemoryCommand(text);
+
+    if (memoryReply !== null) {
+      loading.remove();
+
+      addMessage('assistant', memoryReply);
+
+      currentChat.messages.push({
+        role: 'assistant',
+        content: memoryReply
+      });
+
+      await saveChat(currentChat);
+      await loadMemory();
+
+      return;
+    }
+
+    const memoryContext = await buildMemoryContext();
+
+    const response = await fetch('/chat', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        message:text,
+        messages:currentChat.messages.slice(-12),
+        memory_context:memoryContext,
+        tool_context:documentContext
+      }),
+      signal:AbortSignal.timeout(60000)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Server request failed.');
+    }
+
+    const reply = data.reply || 'No response received.';
+
+    loading.remove();
+
+    addMessage('assistant', reply);
+
+    currentChat.messages.push({
+      role:'assistant',
+      content:reply
+    });
+
+    await saveChat(currentChat);
+
+    if (
+      settings().speakReplies &&
+      settings().autoSpeak &&
+      window.speechSynthesis
+    ) {
+      speakText(reply);
+    }
+
+    documentContext = '';
+
+  } catch (error) {
+    loading.remove();
+
+    const message = error.name === 'TimeoutError' ||
+      error.name === 'AbortError'
+      ? 'Request timed out. Please check your connection and try again.'
+      : 'Request failed: ' + error.message;
+
+    addMessage('assistant', message);
+
+  } finally {
+    isSending = false;
+    $('sendButton').disabled = false;
+    $('chatStatus').textContent = 'Ready';
+    $('userInput').focus();
+  }
+}
+
+
+/* =========================================
+   LOAD AND OPEN CHAT HISTORY
+========================================= */
+
+async function loadHistory() {
+  const list = $('historyList');
+
+  list.textContent = 'Loading...';
+
+  try {
+    const chats = await getAllChats();
+
+    chats.sort((a, b) =>
+      new Date(b.updatedAt || b.createdAt) -
+      new Date(a.updatedAt || a.createdAt)
+    );
+
+    list.replaceChildren();
+
+    if (!chats.length) {
+      list.innerHTML = '<p class="empty">No saved chats yet.</p>';
+      return;
+    }
+
+    chats.forEach(chat => {
+      const row = document.createElement('div');
+      row.className = 'history-entry';
+
+      const open = document.createElement('button');
+      open.type = 'button';
+      open.style.cssText =
+        'display:block;width:100%;text-align:left;border:0;background:transparent;color:inherit';
+
+      const title = document.createElement('strong');
+      title.textContent = chat.title || 'New Chat';
+
+      const date = document.createElement('small');
+      date.textContent = new Date(
+        chat.updatedAt || chat.createdAt
+      ).toLocaleString();
+
+      open.append(title, date);
+
+      open.onclick = () => openSavedChat(chat.id);
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'danger';
+      remove.textContent = 'Delete';
+      remove.style.cssText =
+        'border:0;background:transparent;padding:5px;font-size:11px;margin-top:5px';
+
+      remove.onclick = async () => {
+        if (!confirm('Delete this chat permanently from this browser?')) {
+          return;
+        }
+
+        await deleteChat(chat.id);
+
+        if (currentChatId === chat.id) {
+          await newChat();
+        }
+
+        await loadHistory();
+      };
+
+      row.append(open, remove);
+      list.append(row);
+    });
+
+  } catch (error) {
+    list.textContent = error.message;
+  }
+}
+
+async function openSavedChat(id) {
+  try {
+    const chat = await getChat(id);
+
+    if (!chat) {
+      throw new Error('Chat not found.');
+    }
+
+    currentChat = chat;
+    currentChatId = chat.id;
+
+    $('chat').replaceChildren();
+
+    (chat.messages || []).forEach(message => {
+      addMessage(message.role, message.content);
+    });
+
+    $('chatStatus').textContent = 'Ready';
+
+    closeOverlay('historyOverlay');
+
+  } catch (error) {
+    reportError(error.message);
+  }
+}
+
+
+/* =========================================
+   MEMORY DISPLAY
+========================================= */
+
+async function loadMemory() {
+  try {
+    const memory = await getMemoryData();
+
+    const groups = [];
+
+    if (memory.name) {
+      groups.push({
+        icon:'◉',
+        title:'IDENTITY',
+        value:'Name: ' + memory.name
+      });
+    }
+
+    Object.entries(memory.favorites || {}).forEach(([key, value]) => {
+      groups.push({
+        icon:'★',
+        title:'FAVOURITE · ' + key,
+        value:String(value)
+      });
+    });
+
+    (memory.preferences || []).forEach(value => {
+      groups.push({
+        icon:'✦',
+        title:'PREFERENCE / NOTE',
+        value:String(value)
+      });
+    });
+
+    (memory.notes || []).forEach(value => {
+      groups.push({
+        icon:'⌁',
+        title:'PERSONAL NOTE',
+        value:String(value)
+      });
+    });
+
+    const root = $('memorySnapshot');
+    root.replaceChildren();
+
+    const top = document.createElement('div');
+    top.className = 'memory-topline';
+
+    const countWrap = document.createElement('div');
+
+    const count = document.createElement('div');
+    count.className = 'memory-count';
+    count.textContent = groups.length;
+
+    const label = document.createElement('div');
+    label.className = 'memory-count-label';
+    label.textContent = groups.length === 1
+      ? 'Saved memory'
+      : 'Saved memories';
+
+    countWrap.append(count, label);
+
+    const state = document.createElement('span');
+    state.className = 'memory-state';
+    state.textContent = '● LOCAL';
+
+    top.append(countWrap, state);
+    root.append(top);
+
+    if (!groups.length) {
+      const empty = document.createElement('div');
+      empty.className = 'memory-empty';
+      empty.textContent =
+        'Your memory space is clear. Save a name, favourite or preference.';
+      root.append(empty);
+    } else {
+      const list = document.createElement('div');
+      list.className = 'memory-groups';
+
+      groups.slice(0, 5).forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'memory-group';
+
+        const icon = document.createElement('div');
+        icon.className = 'memory-icon';
+        icon.textContent = item.icon;
+
+        const content = document.createElement('div');
+
+        const title = document.createElement('div');
+        title.className = 'memory-group-title';
+        title.textContent = item.title;
+
+        const value = document.createElement('div');
+        value.className = 'memory-group-value';
+        value.textContent = item.value;
+
+        content.append(title, value);
+        row.append(icon, content);
+        list.append(row);
+      });
+
+      root.append(list);
+
+      if (groups.length > 5) {
+        const more = document.createElement('div');
+        more.className = 'memory-count-label';
+        more.textContent = '+' + (groups.length - 5) + ' more saved';
+        root.append(more);
+      }
+    }
+
+    renderMemoryDetails(memory);
+
+  } catch (error) {
+    $('memorySnapshot').textContent = 'Memory unavailable';
+    $('memoryDetails').textContent = error.message;
+  }
+}
+
+function renderMemoryDetails(memory) {
+  const root = $('memoryDetails');
+  root.replaceChildren();
+
+  const items = [];
+
+  if (memory.name) {
+    items.push({
+      type:'name',
+      label:'Name',
+      value:memory.name
+    });
+  }
+
+  Object.entries(memory.favorites || {}).forEach(([key, value]) => {
+    items.push({
+      type:'favorite',
+      key,
+      label:'Favourite: ' + key,
+      value
+    });
+  });
+
+  (memory.preferences || []).forEach((value, index) => {
+    items.push({
+      type:'preference',
+      index,
+      label:'Preference',
+      value
+    });
+  });
+
+  (memory.notes || []).forEach((value, index) => {
+    items.push({
+      type:'note',
+      index,
+      label:'Note',
+      value
+    });
+  });
+
+  if (!items.length) {
+    root.textContent = 'No saved memories.';
+    return;
+  }
+
+  items.forEach(item => {
+    const box = document.createElement('div');
+    box.className = 'memory-item';
+
+    const remove = document.createElement('button');
+    remove.textContent = 'Delete';
+
+    remove.onclick = async () => {
+      await removeMemoryItem(item);
+    };
+
+    const title = document.createElement('strong');
+    title.textContent = item.label;
+
+    const value = document.createElement('span');
+    value.textContent = item.value;
+
+    box.append(remove, title, value);
+    root.append(box);
+  });
+}
+
+async function removeMemoryItem(item) {
+  const memory = await getMemoryData();
+
+  if (item.type === 'name') {
+    memory.name = '';
+  }
+
+  if (item.type === 'favorite') {
+    delete memory.favorites[item.key];
+  }
+
+  if (item.type === 'preference') {
+    memory.preferences.splice(item.index, 1);
+  }
+
+  if (item.type === 'note') {
+    memory.notes.splice(item.index, 1);
   }
 
   await saveMemoryData(memory);
   await loadMemory();
-
-  resetMemoryForm();
-
-  $('memoryFormStatus').textContent = 'Memory saved successfully.';
-
- }catch(error){
-  $('memoryFormStatus').textContent = error.message;
- }
 }
 
+async function saveMemory() {
+  const kind = $('memoryKind').value;
+  const key = $('memoryKey').value.trim();
+  const value = $('memoryValue').value.trim();
+
+  if (!value) {
+    $('memoryValue').focus();
+    return;
+  }
+
+  const memory = await getMemoryData();
+
+  if (kind === 'name') {
+    memory.name = value;
+  } else if (kind === 'favorite') {
+    if (!key) {
+      $('memoryKey').focus();
+      return;
+    }
+
+    memory.favorites[key] = value;
+  } else if (kind === 'preference') {
+    if (!memory.preferences.includes(value)) {
+      memory.preferences.push(value);
+    }
+  }
+
+  await saveMemoryData(memory);
+
+  $('memoryValue').value = '';
+  $('memoryKey').value = '';
+
+  await loadMemory();
+}
 
 async function clearMemory() {
- if(!confirm('Clear all personal memories from this browser? Chat history will remain.')){
-  return;
- }
+  if (!confirm('Clear all KIRA memories from this browser?')) {
+    return;
+  }
 
- await saveMemoryData({
-  id:'profile',
-  name:null,
-  preferences:[],
-  favorites:{},
-  notes:[]
- });
+  await saveMemoryData({
+    id:'profile',
+    name:'',
+    preferences:[],
+    favorites:{},
+    notes:[]
+  });
 
- resetMemoryForm();
- await loadMemory();
+  await loadMemory();
 }
 
 
-/* ==========================================
-   WEB SEARCH
-========================================== */
+/* =========================================
+   JSON EXPORT / IMPORT
+========================================= */
+
+async function exportBackup() {
+  try {
+    const chats = await getAllChats();
+    const memory = await getMemoryData();
+
+    const backup = {
+      app:'KIRA AI',
+      version:5,
+      exportedAt:new Date().toISOString(),
+      chats,
+      memory,
+      settings:settings()
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(backup, null, 2)],
+      {type:'application/json'}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'kira-ai-backup-' +
+      new Date().toISOString().slice(0, 10) +
+      '.json';
+
+    document.body.append(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+  } catch (error) {
+    reportError('Export failed: ' + error.message);
+  }
+}
+
+async function importBackup(file) {
+  if (!file) return;
+
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+
+    if (
+      !data ||
+      data.app !== 'KIRA AI' ||
+      !Array.isArray(data.chats) ||
+      !data.memory
+    ) {
+      throw new Error('This is not a valid KIRA backup.');
+    }
+
+    if (!confirm(
+      'Import this backup? Matching chat IDs will be replaced. Existing other chats will remain.'
+    )) {
+      return;
+    }
+
+    for (const chat of data.chats) {
+      if (
+        chat &&
+        typeof chat.id === 'string' &&
+        Array.isArray(chat.messages)
+      ) {
+        const safeChat = {
+          id:chat.id,
+          title:String(chat.title || 'Imported Chat').slice(0, 100),
+          createdAt:chat.createdAt || new Date().toISOString(),
+          updatedAt:chat.updatedAt || new Date().toISOString(),
+          messages:chat.messages
+            .filter(m =>
+              m &&
+              ['user','assistant'].includes(m.role) &&
+              typeof m.content === 'string'
+            )
+            .map(m => ({
+              role:m.role,
+              content:m.content.slice(0, 12000)
+            }))
+        };
+
+        await saveChat(safeChat);
+      }
+    }
+
+    const importedMemory = {
+      id:'profile',
+      name:String(data.memory.name || '').slice(0, 100),
+      preferences:Array.isArray(data.memory.preferences)
+        ? data.memory.preferences.filter(x => typeof x === 'string').slice(0, 100)
+        : [],
+      favorites:data.memory.favorites &&
+        typeof data.memory.favorites === 'object' &&
+        !Array.isArray(data.memory.favorites)
+        ? data.memory.favorites
+        : {},
+      notes:Array.isArray(data.memory.notes)
+        ? data.memory.notes.filter(x => typeof x === 'string').slice(0, 100)
+        : []
+    };
+
+    await saveMemoryData(importedMemory);
+
+    if (data.settings && typeof data.settings === 'object') {
+      const importedSettings = {
+        ...DEFAULTS,
+        theme:['light','dark','midnight'].includes(data.settings.theme)
+          ? data.settings.theme
+          : DEFAULTS.theme,
+        assistantName:String(
+          data.settings.assistantName || DEFAULTS.assistantName
+        ).slice(0, 24),
+        voiceLanguage:['en-IN','hi-IN'].includes(data.settings.voiceLanguage)
+          ? data.settings.voiceLanguage
+          : DEFAULTS.voiceLanguage,
+        speakReplies:Boolean(data.settings.speakReplies),
+        autoSpeak:Boolean(data.settings.autoSpeak)
+      };
+
+      saveSettingsData(importedSettings);
+      applySettings();
+    }
+
+    await loadMemory();
+    await loadHistory();
+
+    alert('KIRA backup imported successfully.');
+
+  } catch (error) {
+    alert('Import failed: ' + error.message);
+  } finally {
+    $('importFile').value = '';
+  }
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
 
 async function runSearch() {
- const query = $('searchInput').value.trim();
+  const query = $('searchInput').value.trim();
 
- if(!query){
-  return;
- }
+  if (!query) return;
 
- $('searchResults').textContent = 'Searching...';
+  $('searchResults').textContent = 'Searching...';
 
- try{
-  const response = await fetch('/api/search',{
-   method:'POST',
-   headers:{
-    'Content-Type':'application/json'
-   },
-   body:JSON.stringify({query})
-  });
+  try {
+    const response = await fetch('/api/search', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({query})
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if(!response.ok){
-   throw Error(data.error || 'Search failed');
+    if (!response.ok) {
+      throw new Error(data.error || 'Search failed.');
+    }
+
+    const root = $('searchResults');
+    root.replaceChildren();
+
+    if (!data.results || !data.results.length) {
+      root.textContent = 'No results found.';
+      return;
+    }
+
+    data.results.forEach(item => {
+      const paragraph = document.createElement('p');
+      paragraph.style.margin = '8px 0';
+
+      const link = document.createElement('a');
+      const safe = safeURL(item.url);
+
+      if (!safe) return;
+
+      link.href = safe;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = item.title || 'Search result';
+
+      const snippet = document.createElement('span');
+      snippet.textContent = ' — ' + (item.snippet || '');
+
+      paragraph.append(link, snippet);
+      root.append(paragraph);
+    });
+
+  } catch (error) {
+    $('searchResults').textContent = error.message;
   }
-
-  const box = $('searchResults');
-  box.replaceChildren();
-
-  if(!data.results?.length){
-   box.textContent = 'No results found.';
-   return;
-  }
-
-  data.results.forEach(item=>{
-   const paragraph = document.createElement('p');
-   paragraph.style.margin = '9px 0';
-
-   const link = document.createElement('a');
-   link.href = item.url;
-   link.target = '_blank';
-   link.rel = 'noopener noreferrer';
-   link.textContent = item.title;
-   link.style.color = 'var(--accent)';
-
-   const snippet = document.createElement('span');
-   snippet.textContent = ' — ' + item.snippet;
-
-   paragraph.append(link,snippet);
-   box.append(paragraph);
-  });
-
- }catch(error){
-  $('searchResults').textContent = error.message;
- }
 }
 
 
-/* ==========================================
+/* =========================================
    CALCULATOR
-========================================== */
+========================================= */
 
 async function calculate() {
- const expression = $('calcInput').value.trim();
+  const expression = $('calcInput').value.trim();
 
- if(!expression){
-  return;
- }
+  if (!expression) return;
 
- try{
-  const response = await fetch('/api/calculate',{
-   method:'POST',
-   headers:{
-    'Content-Type':'application/json'
-   },
-   body:JSON.stringify({expression})
-  });
+  $('calcResult').textContent = 'Calculating...';
 
-  const data = await response.json();
+  try {
+    const response = await fetch('/api/calculate', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({expression})
+    });
 
-  $('calcResult').textContent = response.ok
-   ? 'Result: ' + data.result
-   : 'Error: ' + data.error;
+    const data = await response.json();
 
- }catch(error){
-  $('calcResult').textContent = error.message;
- }
+    $('calcResult').textContent = response.ok
+      ? 'Result: ' + data.result
+      : 'Error: ' + data.error;
+
+  } catch (error) {
+    $('calcResult').textContent = error.message;
+  }
 }
 
 
-/* ==========================================
-   DOCUMENT READER
-========================================== */
+/* =========================================
+   DOCUMENT UPLOAD
+========================================= */
 
 async function uploadDocument(file) {
- if(!file){
-  return;
- }
+  if (!file) return;
 
- $('voiceStatus').textContent = 'Reading ' + file.name + '...';
+  const allowed = [
+    'txt','md','csv','json','pdf','docx'
+  ];
 
- const form = new FormData();
- form.append('file',file);
+  const extension = file.name.split('.').pop().toLowerCase();
 
- try{
-  const response = await fetch('/api/upload',{
-   method:'POST',
-   body:form
-  });
-
-  const data = await response.json();
-
-  if(!response.ok){
-   throw Error(data.error || 'Upload failed');
+  if (!allowed.includes(extension)) {
+    $('voiceStatus').textContent = 'Unsupported file type';
+    return;
   }
 
-  documentContext =
-   'Document: ' + data.filename +
-   '\nExtracted text:\n' + data.text;
+  if (file.size > 10 * 1024 * 1024) {
+    $('voiceStatus').textContent = 'Maximum file size is 10 MB';
+    return;
+  }
 
-  addMessage(
-   'assistant',
-   'Document read: ' + data.filename +
-   '. Ask me a question about it. The document text will be included with your next message.'
-  );
+  $('voiceStatus').textContent = 'Reading ' + file.name + '...';
 
-  $('voiceStatus').textContent = 'Document ready';
+  const form = new FormData();
+  form.append('file', file);
 
- }catch(error){
-  $('voiceStatus').textContent = 'Upload failed';
-  addMessage('assistant','Document error: ' + error.message);
- }
+  try {
+    const response = await fetch('/api/upload', {
+      method:'POST',
+      body:form
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Upload failed.');
+    }
+
+    documentContext =
+      'Document: ' + data.filename +
+      '\nExtracted text:\n' + data.text;
+
+    addMessage(
+      'assistant',
+      'Document read: **' + data.filename +
+      '**. Ask me a question about it. The extracted text will be sent with your next message.'
+    );
+
+    $('voiceStatus').textContent = 'Document ready';
+
+  } catch (error) {
+    $('voiceStatus').textContent = 'Upload failed';
+    addMessage('assistant', 'Document error: ' + error.message);
+
+  } finally {
+    $('fileInput').value = '';
+  }
 }
 
 
-/* ==========================================
-   VOICE INPUT AND SPEECH
-========================================== */
-
-function speakText(text) {
- if(!window.speechSynthesis){
-  return;
- }
-
- const utterance = new SpeechSynthesisUtterance(text);
- utterance.lang = settings().voiceLanguage;
-
- window.speechSynthesis.cancel();
- window.speechSynthesis.speak(utterance);
-}
-
+/* =========================================
+   VOICE INPUT / OUTPUT
+========================================= */
 
 function setupVoice() {
- const SpeechRecognition =
-  window.SpeechRecognition ||
-  window.webkitSpeechRecognition;
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
- if(!SpeechRecognition){
-  $('voiceStatus').textContent =
-   'Voice input unsupported in this browser';
+  if (!SpeechRecognition) {
+    $('voiceStatus').textContent =
+      'Voice input unsupported in this browser';
 
-  $('micButton').disabled = true;
-  return;
- }
-
- recognition = new SpeechRecognition();
-
- recognition.lang = settings().voiceLanguage;
- recognition.continuous = false;
- recognition.interimResults = true;
-
- recognition.onstart = ()=>{
-  listening = true;
-  $('micButton').textContent = '■';
-  $('voiceStatus').textContent = 'Listening...';
- };
-
- recognition.onresult = event=>{
-  let text = '';
-
-  for(let i=event.resultIndex;i<event.results.length;i++){
-   text += event.results[i][0].transcript;
+    $('micButton').disabled = true;
+    return;
   }
 
-  $('userInput').value = text.trim();
+  recognition = new SpeechRecognition();
 
-  const last = event.results[event.results.length-1];
+  recognition.lang = settings().voiceLanguage;
+  recognition.continuous = false;
+  recognition.interimResults = true;
 
-  if(last.isFinal){
-   $('userInput').value = $('userInput').value
-    .replace(/^kira[\s,:-]*/i,'')
-    .trim();
+  recognition.onstart = () => {
+    listening = true;
+    $('micButton').textContent = '■';
+    $('voiceStatus').textContent = 'Listening...';
+  };
 
-   if($('userInput').value){
-    sendMessage();
-   }
-  }
- };
+  recognition.onresult = event => {
+    let transcript = '';
 
- recognition.onerror = event=>{
-  $('voiceStatus').textContent = 'Voice error: ' + event.error;
- };
+    for (
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ) {
+      transcript += event.results[i][0].transcript;
+    }
 
- recognition.onend = ()=>{
-  listening = false;
-  $('micButton').textContent = '🎙';
+    $('userInput').value = transcript.trim();
 
-  if($('voiceStatus').textContent === 'Listening...'){
-   $('voiceStatus').textContent = 'Mic: tap to speak';
-  }
- };
+    const last = event.results[event.results.length - 1];
+
+    if (last && last.isFinal) {
+      $('userInput').value = $('userInput').value
+        .replace(/^kira[\s,:-]*/i, '')
+        .trim();
+
+      if ($('userInput').value) {
+        sendMessage();
+      }
+    }
+  };
+
+  recognition.onerror = event => {
+    $('voiceStatus').textContent = 'Voice error: ' + event.error;
+  };
+
+  recognition.onend = () => {
+    listening = false;
+    $('micButton').textContent = '🎙';
+
+    if ($('voiceStatus').textContent === 'Listening...') {
+      $('voiceStatus').textContent = 'Mic: tap to speak';
+    }
+  };
+}
+
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+
+  const clean = String(text)
+    .replace(/```[\s\S]*?```/g, ' code block ')
+    .replace(/[#*_`>\[\]()]/g, ' ')
+    .slice(0, 5000);
+
+  const utterance = new SpeechSynthesisUtterance(clean);
+  utterance.lang = settings().voiceLanguage;
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
 }
 
 
-/* ==========================================
-   THEME
-========================================== */
-
-function changeTheme(theme) {
- const current = settings();
-
- current.theme = theme;
-
- localStorage.setItem(
-  'kiraSettingsV5',
-  JSON.stringify(current)
- );
-
- applySettings();
-}
-
-
-function toggleTheme() {
- const themes = [
-  'iron',
-  'neon',
-  'midnight',
-  'purple',
-  'light'
- ];
-
- const current = settings().theme;
- const next = themes[
-  (themes.indexOf(current)+1) % themes.length
- ];
-
- changeTheme(next);
-}
-
-
-/* ==========================================
-   SETTINGS
-========================================== */
+/* =========================================
+   SETTINGS UI
+========================================= */
 
 function openSettings() {
- const s = settings();
+  const s = settings();
 
- $('themeSelect').value = s.theme;
- $('assistantName').value = s.assistantName;
- $('voiceLanguage').value = s.voiceLanguage;
- $('speakReplies').checked = s.speakReplies;
- $('autoSpeak').checked = s.autoSpeak;
+  $('themeSelect').value = s.theme;
+  $('assistantName').value = s.assistantName;
+  $('voiceLanguage').value = s.voiceLanguage;
+  $('speakReplies').checked = s.speakReplies;
+  $('autoSpeak').checked = s.autoSpeak;
 
- openOverlay('settingsOverlay');
+  openOverlay('settingsOverlay');
 }
-
 
 function saveSettings() {
- const name = $('assistantName').value.trim();
+  const data = {
+    theme:$('themeSelect').value,
+    assistantName:$('assistantName').value.trim() || 'KIRA',
+    voiceLanguage:$('voiceLanguage').value,
+    speakReplies:$('speakReplies').checked,
+    autoSpeak:$('autoSpeak').checked
+  };
 
- const s = {
-  theme:$('themeSelect').value,
-  assistantName:name || 'KIRA',
-  voiceLanguage:$('voiceLanguage').value,
-  speakReplies:$('speakReplies').checked,
-  autoSpeak:$('autoSpeak').checked
- };
+  saveSettingsData(data);
+  applySettings();
 
- localStorage.setItem('kiraSettingsV5',JSON.stringify(s));
-
- applySettings();
-
- $('settingsStatus').textContent = 'Settings saved successfully.';
+  $('settingsStatus').textContent = 'Settings saved.';
 }
-
 
 function resetSettings() {
- localStorage.setItem(
-  'kiraSettingsV5',
-  JSON.stringify(DEFAULTS)
- );
-
- applySettings();
- openSettings();
-
- $('settingsStatus').textContent = 'Settings reset.';
-}
-
-
-/* ==========================================
-   SERVER STATUS
-========================================== */
-
-async function checkStatus() {
- try{
-  const response = await fetch('/api/status');
-  const data = await response.json();
-
-  if(data.configured){
-   $('systemStatus').textContent = '● KIRA ONLINE';
-   $('heroStatus').textContent = '◈ SYSTEM OPERATIONAL';
-   $('systemStatus').style.color = 'var(--success)';
-  }else{
-   $('systemStatus').textContent = '● API KEY MISSING';
-   $('heroStatus').textContent = '◈ CONFIGURATION REQUIRED';
-   $('systemStatus').style.color = 'var(--danger)';
+  if (!confirm('Reset all KIRA display and voice settings?')) {
+    return;
   }
 
- }catch{
-  $('systemStatus').textContent = '● SERVER OFFLINE';
-  $('heroStatus').textContent = '◈ CONNECTION LOST';
-  $('systemStatus').style.color = 'var(--danger)';
- }
+  saveSettingsData(DEFAULTS);
+  applySettings();
+  openSettings();
+
+  $('settingsStatus').textContent = 'Settings reset.';
+}
+
+function toggleTheme() {
+  const s = settings();
+
+  s.theme =
+    s.theme === 'light'
+      ? 'dark'
+      : s.theme === 'dark'
+        ? 'midnight'
+        : 'light';
+
+  saveSettingsData(s);
+  applySettings();
 }
 
 
-/* ==========================================
-   BUTTON CONNECTIONS
-========================================== */
+/* =========================================
+   STATUS
+========================================= */
+
+async function checkStatus() {
+  try {
+    const response = await fetch('/api/status');
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error('Server status unavailable.');
+    }
+
+    $('systemStatus').textContent = data.configured
+      ? '● KIRA ONLINE'
+      : '● API NOT CONFIGURED';
+
+    $('systemStatus').style.color = data.configured
+      ? 'var(--success)'
+      : 'var(--danger)';
+
+    $('systemDetails').textContent =
+      'Provider: ' + data.provider +
+      '\nModel: ' + data.model +
+      '\nStorage: Browser only' +
+      '\nServer personal-data storage: Disabled';
+
+  } catch {
+    $('systemStatus').textContent = '● SERVER OFFLINE';
+    $('systemStatus').style.color = 'var(--danger)';
+    $('systemDetails').textContent =
+      'Could not connect to the KIRA backend.';
+  }
+}
+
+
+/* =========================================
+   OVERLAYS
+========================================= */
+
+function openOverlay(id) {
+  $(id).classList.add('open');
+}
+
+function closeOverlay(id) {
+  $(id).classList.remove('open');
+}
+
+
+/* =========================================
+   EVENT LISTENERS
+========================================= */
 
 $('sendButton').onclick = sendMessage;
 
-$('userInput').addEventListener('keydown',event=>{
- if(event.key === 'Enter' && !event.shiftKey){
-  event.preventDefault();
-  sendMessage();
- }
+$('userInput').addEventListener('keydown', event => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage();
+  }
 });
 
 $('newChatButton').onclick = newChat;
 
-$('historyButton').onclick = async ()=>{
- $('historySearch').value = '';
- await loadHistory();
- openOverlay('historyOverlay');
+$('historyButton').onclick = async () => {
+  await loadHistory();
+  openOverlay('historyOverlay');
 };
 
-$('settingsButton').onclick =
- $('settingsSideButton').onclick = openSettings;
+$('historySideButton').onclick = async () => {
+  await loadHistory();
+  openOverlay('historyOverlay');
+};
+
+$('settingsButton').onclick = openSettings;
+$('settingsSideButton').onclick = openSettings;
 
 $('themeButton').onclick = toggleTheme;
 
 $('saveSettingsButton').onclick = saveSettings;
-
 $('resetSettingsButton').onclick = resetSettings;
 
+$('exportButton').onclick = exportBackup;
 
-// Memory
-$('memoryButton').onclick =
- $('manageMemoryButton').onclick = async ()=>{
-  await loadMemory();
-  resetMemoryForm();
-  openOverlay('memoryOverlay');
- };
-
-$('saveMemoryButton').onclick = saveMemory;
-
-$('cancelMemoryEditButton').onclick = resetMemoryForm;
-
-$('clearMemoryButton').onclick = clearMemory;
-
-
-// Memory type selector
-$('memoryKind').onchange = ()=>{
- const kind = $('memoryKind').value;
-
- $('memoryKey').style.display =
-  kind === 'favorite' ? 'block' : 'none';
-
- $('memoryValue').placeholder =
-  kind === 'name'
-   ? 'Your name'
-   : 'What should KIRA remember?';
+$('importButton').onclick = () => {
+  $('importFile').click();
 };
 
+$('importFile').onchange = event => {
+  const file = event.target.files[0];
+  importBackup(file);
+};
 
-// Voice
-$('micButton').onclick = ()=>{
- if(!recognition){
-  return;
- }
+document.querySelectorAll('[data-close]').forEach(button => {
+  button.onclick = () => closeOverlay(button.dataset.close);
+});
 
- if(listening){
-  recognition.stop();
- }else{
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', event => {
+    if (event.target === overlay) {
+      overlay.classList.remove('open');
+    }
+  });
+});
+
+document.querySelectorAll('.quick').forEach(button => {
+  button.onclick = () => {
+    $('userInput').value = button.dataset.message;
+    sendMessage();
+  };
+});
+
+$('micButton').onclick = () => {
+  if (!recognition) return;
+
+  if (listening) {
+    recognition.stop();
+    return;
+  }
+
   recognition.lang = settings().voiceLanguage;
 
-  try{
-   recognition.start();
-  }catch{
-   $('voiceStatus').textContent = 'Could not start microphone.';
+  try {
+    recognition.start();
+  } catch {
+    $('voiceStatus').textContent = 'Could not start microphone';
   }
- }
 };
 
-
-// Search
 $('searchButton').onclick = runSearch;
 
-$('searchInput').addEventListener('keydown',event=>{
- if(event.key === 'Enter'){
-  runSearch();
- }
+$('searchInput').addEventListener('keydown', event => {
+  if (event.key === 'Enter') runSearch();
 });
 
-
-// Calculator
 $('calcButton').onclick = calculate;
 
-$('calcInput').addEventListener('keydown',event=>{
- if(event.key === 'Enter'){
-  calculate();
- }
+$('calcInput').addEventListener('keydown', event => {
+  if (event.key === 'Enter') calculate();
 });
 
+$('uploadButton').onclick = () => $('fileInput').click();
 
-// Documents
-$('uploadButton').onclick = ()=> $('fileInput').click();
-
-$('fileInput').onchange = event=>{
- uploadDocument(event.target.files[0]);
- event.target.value = '';
+$('fileInput').onchange = event => {
+  uploadDocument(event.target.files[0]);
 };
 
+document.querySelectorAll('.site').forEach(button => {
+  button.onclick = () => {
+    const url = safeURL(button.dataset.url);
 
-// Quick prompts
-document.querySelectorAll('.quick').forEach(button=>{
- button.onclick = ()=>{
-  $('userInput').value = button.dataset.message;
-  sendMessage();
- };
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+});
+
+$('memoryButton').onclick = async () => {
+  await loadMemory();
+  openOverlay('memoryOverlay');
+};
+
+$('manageMemoryButton').onclick = async () => {
+  await loadMemory();
+  openOverlay('memoryOverlay');
+};
+
+$('saveMemoryButton').onclick = saveMemory;
+$('clearMemoryButton').onclick = clearMemory;
+
+$('memoryKind').onchange = () => {
+  const kind = $('memoryKind').value;
+
+  $('memoryKey').style.display =
+    kind === 'favorite' ? 'block' : 'none';
+
+  $('memoryValue').placeholder =
+    kind === 'name'
+      ? 'Your name'
+      : kind === 'favorite'
+        ? 'Favourite value'
+        : 'What should KIRA remember?';
+};
+
+$('historySearch').oninput = () => {
+  const query = $('historySearch').value.toLowerCase();
+
+  document.querySelectorAll('.history-entry').forEach(entry => {
+    entry.style.display =
+      entry.textContent.toLowerCase().includes(query)
+        ? 'block'
+        : 'none';
+  });
+};
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    document.querySelectorAll('.overlay').forEach(overlay => {
+      overlay.classList.remove('open');
+    });
+  }
 });
 
 
-// Approved quick launch websites
-document.querySelectorAll('.site').forEach(button=>{
- button.onclick = ()=>{
-  window.open(
-   button.dataset.url,
-   '_blank',
-   'noopener,noreferrer'
-  );
- };
-});
-
-
-/* ==========================================
-   START KIRA
-========================================== */
+/* =========================================
+   INITIALIZATION
+========================================= */
 
 async function initializeKira() {
- try{
-  await openDatabase();
+  try {
+    applySettings();
+    setupVoice();
 
-  applySettings();
+    $('chatStatus').textContent = 'Connecting...';
 
-  setupVoice();
+    await openDatabase();
 
-  await checkStatus();
+    $('storageStatus').textContent =
+      '● IndexedDB active · Data stored in this browser';
 
-  await loadMemory();
+    await loadMemory();
 
-  await newChat();
+    await newChat();
 
-  $('chatStatus').textContent = 'Ready';
+    await checkStatus();
 
- }catch(error){
-  reportError(
-   'Could not initialize browser storage: ' + error.message
-  );
+  } catch (error) {
+    $('storageStatus').textContent =
+      'Local storage unavailable';
 
-  $('memoryName').textContent = 'Storage unavailable';
-  $('memoryStatus').textContent = 'ERROR';
- }
+    $('chatStatus').textContent = 'Storage error';
+
+    reportError(error.message);
+  }
 }
 
 initializeKira();
