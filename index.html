@@ -386,6 +386,29 @@ main {
   font-style:italic;
 }
 
+.message-speak {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:10px;
+  padding:6px 11px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:transparent;
+  color:var(--muted);
+  font:inherit;
+  font-size:11px;
+  cursor:pointer;
+  transition:color .2s ease,border-color .2s ease,background .2s ease;
+}
+
+.message-speak:hover,
+.message-speak:focus-visible {
+  color:var(--accent);
+  border-color:var(--accent);
+  outline:none;
+}
+
 .input-wrap {
   padding:12px;
   border-top:1px solid var(--border);
@@ -1579,6 +1602,25 @@ function addMessage(role, text, options = {}) {
   }
 
   box.append(name, body);
+
+  // Add a listen button to every completed KIRA reply.
+  if (role === 'assistant' && !options.thinking) {
+    const speakButton = document.createElement('button');
+    speakButton.type = 'button';
+    speakButton.className = 'message-speak';
+    speakButton.textContent = '🔊 Listen';
+    speakButton.title = 'Listen to this KIRA reply';
+    speakButton.setAttribute('aria-label', 'Read this KIRA reply aloud');
+
+    speakButton.addEventListener('click', () => {
+      if (typeof speakText === 'function') {
+        speakText(String(text));
+      }
+    });
+
+    box.append(speakButton);
+  }
+
   $('chat').append(box);
   $('chat').scrollTop = $('chat').scrollHeight;
 
